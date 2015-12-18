@@ -23,12 +23,12 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 function dashboard_widget_function() {
 	echo "
 		<h2>Custom Dashboard Widget</h2>
-		<p>More information</p>
+		<p>Custom content here</p>
 	";
 } 
 
 function add_dashboard_widgets() {
-	wp_add_dashboard_widget('example_dashboard_widget', 'Custom Dashoard Widget', 'dashboard_widget_function');
+	wp_add_dashboard_widget('custom_dashboard_widget', 'Custom Dashoard Widget', 'dashboard_widget_function');
 }
 add_action('wp_dashboard_setup', 'add_dashboard_widgets' );
 ```
