@@ -3,6 +3,7 @@
 * [Hide WordPress Update Nag to All But Admins]()
 * [Create Custom WordPress Dashboard Widget]()
 * [Remove All Dashboard Widgets]()
+* [Insert Custom Login Logo]()
 
 
 ### Hide WordPress Update Nag to All But Admins
@@ -22,10 +23,10 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 ```php
 // Create Custom WordPress Dashboard Widget
 function dashboard_widget_function() {
-	echo "
+	echo '
 		<h2>Custom Dashboard Widget</h2>
 		<p>Custom content here</p>
-	";
+	';
 } 
 
 function add_dashboard_widgets() {
@@ -50,4 +51,16 @@ function remove_dashboard_widgets() {
     unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
   remove_meta_box( 'dashboard_activity', 'dashboard', 'normal' );
 }
+add_action('wp_dashboard_setup', 'remove_dashboard_widgets');
 ```
+
+```php
+// Insert Custom Login Logo
+function custom_login_logo() {
+    echo '
+    	<style>
+        .login h1 a { background-image:url(IMAGE)!important;background-size: 234px 67px;width:234px;height:67px;display:block; }
+    	</style>
+    	';
+}
+add_action( 'login_head', 'custom_login_logo' );
