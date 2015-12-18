@@ -19,6 +19,7 @@
 * [Support Featured Images](#support-featured-images)
 * [Support Search Form](#support-search-form)
 * [Escape HTML in Posts](#escape-html-in-posts)
+* [Disable XMLRPC](#disable-xmlrpc)
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -268,4 +269,14 @@ add_filter( 'excerpt_save_pre', 'filterCode', 9 );
 
 Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
 
+### Disable xmlrpc.php
+
+// Disable XMLRPC
+
+```php
+// Disable XML RPC
+add_filter('xmlrpc_enabled', '__return_false');
+remove_action( 'wp_head', 'rsd_link' );
+remove_action( 'wp_head', 'wlwmanifest_link' );
+```
 
