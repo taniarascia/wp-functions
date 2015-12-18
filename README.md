@@ -11,9 +11,13 @@
 * [Change Read More Link]()
 * [Change More Excerpt]()
 * [Disable Emoji Mess]()
+* [Change Media Gallery URL]()
+* [Create Custom Thumbnail Size]()
+* [Add Categories for Attachments]()
+* [Add Tags for Attachments]()
+* [Create a Global Variable]()
 * [Support Featured Images]()
 * [Support Search Form]()
-* [Change Media Gallery URL]()
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -168,9 +172,48 @@ function disable_emojicons_tinymce( $plugins ) {
 
 ```php
 // Change Media Gallery URL
-update_option('upload_url_path', 'http://s3.website.com/wp-content/uploads');
+update_option( 'upload_url_path', 'http://s3.website.com/wp-content/uploads' );
 ```
 
+### Create Custom Thumbnail Size
+
+```php
+// Add 250 x 250 Custom Thumbnail Size
+add_image_size( 'themename-nav-thumbnail', 250, 250, true );
+```
+
+### Add Categories for Attachments
+
+```php
+// Add Categories for Attachments
+function add_categories_for_attachments() {
+	register_taxonomy_for_object_type( 'category', 'attachment' ); 
+} 
+add_action( 'init' , 'add_categories_for_attachments' ); 
+```
+
+### Add Tags for Attachments
+
+```php
+// Add Tags for Attachments
+function add_tags_for_attachments() {
+	register_taxonomy_for_object_type( 'post_tag', 'attachment' ); 
+} 
+add_action( 'init' , 'add_tags_for_attachments' );
+```
+
+### Create a Global Variable
+
+```php
+// Create a Global Variable
+function global_variable(){
+     return 'String';
+}
+```
+
+```php
+<?php echo global_variable(); ?>
+```
 
 ### Support Featured Images
 
