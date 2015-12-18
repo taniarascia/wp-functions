@@ -1,2 +1,3 @@
-# wp-functions
-Useful WordPress Functions
+# Useful WordPress Functions
+
+
