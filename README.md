@@ -7,6 +7,13 @@
 * [Modify Admin Footer Text]()
 * [Enqueue Styles and Scripts]()
 * [Enqueue Google Fonts]()
+* [Modify Excerpt Length]()
+* [Change Read More Link]()
+* [Change More Excerpt]()
+* [Disable Emoji Mess]()
+
+* [Support Featured Images]()
+* [Support Search Form]()
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -104,3 +111,70 @@ function google_fonts() {
 add_action( 'wp_print_styles', 'google_fonts' );
 ```
 
+### Modify Excerpt Length
+
+```php
+// Modify Excerpt Length
+function custom_excerpt_length( $length ) {
+	return 25;
+}
+add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
+```
+
+### Change Read More Link
+
+```php
+// Change Read More Link
+function custom_read_more_link() {
+	return '<a href="' . get_permalink() . '">Read More</a>';
+}
+add_filter( 'the_content_more_link', 'custom_read_more_link' );
+```
+
+### Change More Excerpt
+
+```php
+// Change More Excerpt
+function custom_more_excerpt( $more ) {
+	return '...';
+}
+add_filter('excerpt_more', 'custom_more_excerpt');
+```
+
+### Disable Emoji Mess
+
+```php
+// Disable Emoji Mess
+function disable_wp_emojicons() {
+  remove_action( 'admin_print_styles', 'print_emoji_styles' );
+  remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+  remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+  remove_action( 'wp_print_styles', 'print_emoji_styles' );
+  remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+  remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+  remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+  add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+}
+add_action( 'init', 'disable_wp_emojicons' );
+function disable_emojicons_tinymce( $plugins ) {
+  if ( is_array( $plugins ) ) {
+    return array_diff( $plugins, array( 'wpemoji' ) );
+  } else {
+    return array();
+  }
+}
+```
+
+### Support Featured Images
+
+```php
+// Support Featured Images
+add_theme_support( 'post-thumbnails' );
+```
+
+### Support Search Form
+
+```php
+// Support Search Form
+add_theme_support( 'html5', array( 'search-form' ) );
+```
