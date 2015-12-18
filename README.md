@@ -211,12 +211,6 @@ function global_variable(){
 }
 ```
 
-Return global variable
-
-```html
-<?php echo global_variable(); ?>
-```
-
 ### Support Featured Images
 
 ```php
