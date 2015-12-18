@@ -301,8 +301,8 @@ function custom_settings_page() { ?>
 	    <h1>Custom Settings</h1>
 	    <form method="post" action="options.php">
 	        <?php
-	            settings_fields("section");
-	            do_settings_sections("theme-options");      
+	            settings_fields('section');
+	            do_settings_sections('theme-options');      
 	            submit_button(); 
 	        ?>          
 	    </form>
@@ -310,9 +310,9 @@ function custom_settings_page() { ?>
 <?php }
 
 function custom_settings_add_menu() {
-  add_menu_page("Custom Settings", "Custom Settings", "manage_options", "custom-settings", "custom_settings_page", null, 99);
+  add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99);
 }
-add_action("admin_menu", "custom_settings_add_menu");
+add_action( 'admin_menu', 'custom_settings_add_menu' );
 
 // Example setting
 function setting_twitter() { ?>
@@ -320,11 +320,11 @@ function setting_twitter() { ?>
 <?php }
 
 function custom_settings_page_setup() {
-	add_settings_section("section", "All Settings", null, "theme-options");
-	add_settings_field("twitter", "Twitter Username", "setting_twitter", "theme-options", "section");
-  register_setting("section", "twitter");
+	add_settings_section('section', 'All Settings', null, 'theme-options');
+	add_settings_field('twitter', 'Twitter Username', 'setting_twitter', 'theme-options', 'section');
+  register_setting('section', 'twitter');
 }
-add_action("admin_init", "custom_settings_page_setup");
+add_action( 'admin_init', 'custom_settings_page_setup' );
 ```
 
 Retrieve Field
