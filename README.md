@@ -13,6 +13,7 @@
 * [Disable Emoji Mess]()
 * [Support Featured Images]()
 * [Support Search Form]()
+* [Change Media Gallery URL]()
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -163,6 +164,13 @@ function disable_emojicons_tinymce( $plugins ) {
   }
 }
 ```
+### Change Media Gallery URL
+
+```php
+// Change Media Gallery URL
+update_option('upload_url_path', 'http://s3.website.com/wp-content/uploads');
+```
+
 
 ### Support Featured Images
 
