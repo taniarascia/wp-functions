@@ -1,8 +1,8 @@
 # Useful WordPress Functions
 
-* [Hide WordPress Update Nag to All But Admins](#)
-* [Create Custom WordPress Dashboard Widget](#)
-* [Remove All Dashboard Widgets](#)
+* [Hide WordPress Update Nag to All But Admins]()
+* [Create Custom WordPress Dashboard Widget]()
+* [Remove All Dashboard Widgets]()
 
 
 ### Hide WordPress Update Nag to All But Admins
