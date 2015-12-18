@@ -1,23 +1,24 @@
 # Useful WordPress Functions
 
-* [Hide WordPress Update Nag to All But Admins](#Hide WordPress Update Nag to All But Admins)
-* [Create Custom WordPress Dashboard Widget]()
-* [Remove All Dashboard Widgets]()
-* [Insert Custom Login Logo]()
-* [Modify Admin Footer Text]()
-* [Enqueue Styles and Scripts]()
-* [Enqueue Google Fonts]()
-* [Modify Excerpt Length]()
-* [Change Read More Link]()
-* [Change More Excerpt]()
-* [Disable Emoji Mess]()
-* [Change Media Gallery URL]()
-* [Create Custom Thumbnail Size]()
-* [Add Categories for Attachments]()
-* [Add Tags for Attachments]()
-* [Create a Global Variable]()
-* [Support Featured Images]()
-* [Support Search Form]()
+* [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
+* [Create Custom WordPress Dashboard Widget](#create-custom-wordpress-dashboard-widget)
+* [Remove All Dashboard Widgets](#remove-all-dashboard-widgets)
+* [Insert Custom Login Logo](#insert-custom-login-logo)
+* [Modify Admin Footer Text](#modify-admin-footer-text)
+* [Enqueue Styles and Scripts](#enqueue-styles-and-scripts)
+* [Enqueue Google Fonts](#enqueue-google-fonts)
+* [Modify Excerpt Length](#modify-excerpt-length)
+* [Change Read More Link](#change-read-more-link)
+* [Change More Excerpt](#change-more-excerpt)
+* [Disable Emoji Mess](#disable-emoji-mess)
+* [Change Media Gallery URL](#change-media-gallery-url)
+* [Create Custom Thumbnail Size](#create-custom-thumbnail-size)
+* [Add Categories for Attachments](#add-categories-for-attachments)
+* [Add Tags for Attachments](#add-tags-for-attachments)
+* [Create a Global Variable](#create-a-global-variable)
+* [Support Featured Images](#support-featured-images)
+* [Support Search Form](#support-search-form)
+* [Escape HTML in Posts](#escape-html-in-posts)
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -224,3 +225,47 @@ add_theme_support( 'post-thumbnails' );
 // Support Search Form
 add_theme_support( 'html5', array( 'search-form' ) );
 ```
+
+### Escape HTML in Posts
+
+```php
+// Escape HTML in <code> or <pre><code> tags.
+function escapeHTML($arr) {
+	
+	// last params (double_encode) was added in 5.2.3
+	if (version_compare(PHP_VERSION, '5.2.3') >= 0) {
+	
+		$output = htmlspecialchars($arr[2], ENT_NOQUOTES, get_bloginfo('charset'), false); 
+	}
+	else {
+		$specialChars = array(
+            '&' => '&amp;',
+            '<' => '&lt;',
+            '>' => '&gt;'
+		);
+		
+		// decode already converted data
+		$data = htmlspecialchars_decode($arr[2]);
+		// escapse all data inside <pre>
+		$output = strtr($data, $specialChars);
+	}
+	if (! empty($output)) {
+		return  $arr[1] . $output . $arr[3];
+	}	else 	{
+		return  $arr[1] . $arr[2] . $arr[3];
+	}	
+}
+function filterCode($data) {
+	//$modifiedData = preg_replace_callback('@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data);
+	$modifiedData = preg_replace_callback('@(<code.*>)(.*)(<\/code>)@isU', 'escapeHTML', $data);
+	$modifiedData = preg_replace_callback('@(<tt.*>)(.*)(<\/tt>)@isU', 'escapeHTML', $modifiedData);
+ 
+	return $modifiedData;
+}
+add_filter( 'content_save_pre', 'filterCode', 9 );
+add_filter( 'excerpt_save_pre', 'filterCode', 9 );
+```
+
+Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
+
+
