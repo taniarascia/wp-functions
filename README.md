@@ -225,6 +225,12 @@ function global_string(){
 }
 ```
 
+Retrieve Field
+
+```php
+<?php echo global_string(); ?>
+```
+
 ### Support Featured Images
 
 ```php
@@ -254,7 +260,6 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 // Escape HTML in <code> or <pre><code> tags.
 function escapeHTML($arr) {
 	
-	// last params (double_encode) was added in 5.2.3
 	if (version_compare(PHP_VERSION, '5.2.3') >= 0) {
 	
 		$output = htmlspecialchars($arr[2], ENT_NOQUOTES, get_bloginfo('charset'), false); 
@@ -277,8 +282,8 @@ function escapeHTML($arr) {
 		return  $arr[1] . $arr[2] . $arr[3];
 	}	
 }
-function filterCode($data) {
-	//$modifiedData = preg_replace_callback('@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data);
+function filterCode($data) { // Uncomment if you want to escape anything within a <pre> tag
+	//$modifiedData = preg_replace_callback('@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data); 
 	$modifiedData = preg_replace_callback('@(<code.*>)(.*)(<\/code>)@isU', 'escapeHTML', $data);
 	$modifiedData = preg_replace_callback('@(<tt.*>)(.*)(<\/tt>)@isU', 'escapeHTML', $modifiedData);
  
