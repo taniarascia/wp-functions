@@ -16,7 +16,7 @@
 * [Add Categories for Attachments](#add-categories-for-attachments)
 * [Add Tags for Attachments](#add-tags-for-attachments)
 * [Add Custom Excerpt to Pages](#add-custom-excerpt-to-pages)
-* [Create a Global Variable](#create-a-global-variable)
+* [Create a Global String](#create-a-global-string)
 * [Support Featured Images](#support-featured-images)
 * [Support Search Form](#support-search-form)
 * [Disable XMLRPC](#disable-xmlrpc)
@@ -216,11 +216,11 @@ function add_page_excerpt() {
 add_action('init', 'add_page_excerpt');
 ```
 
-### Create a Global Variable
+### Create a Global String
 
 ```php
-// Create a Global Variable
-function global_variable(){
+// Create a Global String
+function global_string(){
      return 'String';
 }
 ```
@@ -325,6 +325,12 @@ function custom_settings_page_setup() {
   register_setting("section", "twitter");
 }
 add_action("admin_init", "custom_settings_page_setup");
+```
+
+Retrieve Field
+
+```php
+<?php echo get_option('twitter'); ?>
 ```
 
 Modified from [Create a WordPress Theme Settings Page with the Settings API](http://www.sitepoint.com/create-a-wordpress-theme-settings-page-with-the-settings-api/).
