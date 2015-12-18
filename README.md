@@ -13,6 +13,7 @@
 * [Disable Emoji Mess]()
 * [Support Featured Images]()
 * [Support Search Form]()
+* [Escape HTML Inside <pre><code> or <code> Tags]
 
 ### Hide WordPress Update Nag to All But Admins
 
