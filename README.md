@@ -15,11 +15,13 @@
 * [Create Custom Thumbnail Size](#create-custom-thumbnail-size)
 * [Add Categories for Attachments](#add-categories-for-attachments)
 * [Add Tags for Attachments](#add-tags-for-attachments)
+* [Add Custom Excerpt to Pages](#add-custom-excerpt-to-pages)
 * [Create a Global Variable](#create-a-global-variable)
 * [Support Featured Images](#support-featured-images)
 * [Support Search Form](#support-search-form)
-* [Escape HTML in Posts](#escape-html-in-posts)
 * [Disable XMLRPC](#disable-xmlrpc)
+* [Escape HTML in Posts](#escape-html-in-posts)
+* [Create Custom Global Settings](#create-custom-global-settings)
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -204,6 +206,16 @@ function add_tags_for_attachments() {
 add_action( 'init' , 'add_tags_for_attachments' );
 ```
 
+### Add Custom Excerpt to Pages
+
+```php
+// Add Custom Excerpt to Pages
+function add_page_excerpt() {
+	add_post_type_support('page', array('excerpt'));
+}
+add_action('init', 'add_page_excerpt');
+```
+
 ### Create a Global Variable
 
 ```php
@@ -225,6 +237,17 @@ add_theme_support( 'post-thumbnails' );
 ```php
 // Support Search Form
 add_theme_support( 'html5', array( 'search-form' ) );
+```
+
+### Disable xmlrpc.php
+
+// Disable XMLRPC
+
+```php
+// Disable XML RPC
+add_filter('xmlrpc_enabled', '__return_false');
+remove_action( 'wp_head', 'rsd_link' );
+remove_action( 'wp_head', 'wlwmanifest_link' );
 ```
 
 ### Escape HTML in Posts
@@ -269,14 +292,38 @@ add_filter( 'excerpt_save_pre', 'filterCode', 9 );
 
 Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
 
-### Disable xmlrpc.php
-
-// Disable XMLRPC
+### Create Custom Global Settings
 
 ```php
-// Disable XML RPC
-add_filter('xmlrpc_enabled', '__return_false');
-remove_action( 'wp_head', 'rsd_link' );
-remove_action( 'wp_head', 'wlwmanifest_link' );
+// Create Custom Global Settings
+function custom_settings_page() { ?>
+	    <div class="wrap">
+	    <h1>Custom Settings</h1>
+	    <form method="post" action="options.php">
+	        <?php
+	            settings_fields("section");
+	            do_settings_sections("theme-options");      
+	            submit_button(); 
+	        ?>          
+	    </form>
+		</div>
+<?php }
+
+function custom_settings_add_menu() {
+  add_menu_page("Custom Settings", "Custom Settings", "manage_options", "custom-settings", "custom_settings_page", null, 99);
+}
+add_action("admin_menu", "custom_settings_add_menu");
+
+function setting_twitter() { ?>
+  <input type="text" name="twitter" id="twitter" value="<?php echo get_option('twitter'); ?>" />
+<?php }
+
+function custom_settings_page_setup() {
+	add_settings_section("section", "All Settings", null, "theme-options");
+	add_settings_field("twitter", "Twitter Username", "setting_twitter", "theme-options", "section");
+  register_setting("section", "twitter");
+}
+add_action("admin_init", "custom_settings_page_setup");
 ```
 
+Modified from [Create a WordPress Theme Settings Page with the Settings API](http://www.sitepoint.com/create-a-wordpress-theme-settings-page-with-the-settings-api/).
