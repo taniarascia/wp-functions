@@ -4,6 +4,7 @@
 * [Create Custom WordPress Dashboard Widget]()
 * [Remove All Dashboard Widgets]()
 * [Insert Custom Login Logo]()
+* [Modify Admin Footer Text]()
 
 
 ### Hide WordPress Update Nag to All But Admins
@@ -65,3 +66,12 @@ function custom_login_logo() {
     	';
 }
 add_action( 'login_head', 'custom_login_logo' );
+```
+
+### Modify Admin Footer Text
+
+```php
+function modify_footer() {
+  echo 'Created by <a href="mailto:you@example.com">you</a>.';
+}
+```
