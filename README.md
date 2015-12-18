@@ -5,7 +5,8 @@
 * [Remove All Dashboard Widgets]()
 * [Insert Custom Login Logo]()
 * [Modify Admin Footer Text]()
-
+* [Enqueue Styles and Scripts]()
+* [Enqueue Google Fonts]()
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -71,7 +72,35 @@ add_action( 'login_head', 'custom_login_logo' );
 ### Modify Admin Footer Text
 
 ```php
+// Modify Admin Footer Text
 function modify_footer() {
   echo 'Created by <a href="mailto:you@example.com">you</a>.';
 }
 ```
+
+### Enqueue Styles and Scripts
+
+```php
+// Enqueue Styles and Scripts
+function custom_scripts() {
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '3.3.6' );
+	wp_enqueue_style( 'style', get_template_directory_uri() . '/css/style.css' );
+	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js', array('jquery'), '3.3.6', true );
+	wp_enqueue_script( 'script', get_template_directory_uri() . '/js/script.js' );
+}
+
+add_action( 'wp_enqueue_scripts', 'custom_scripts' );
+```
+
+### Enqueue Google Fonts
+
+```php
+// Enqueue Google Fonts
+function google_fonts() {
+				wp_register_style('OpenSans', '//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
+				wp_enqueue_style( 'OpenSans');
+		}
+
+add_action( 'wp_print_styles', 'google_fonts' );
+```
+
