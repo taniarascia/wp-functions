@@ -53,6 +53,7 @@ function remove_dashboard_widgets() {
 }
 add_action('wp_dashboard_setup', 'remove_dashboard_widgets');
 ```
+### Insert Custom Login Logo
 
 ```php
 // Insert Custom Login Logo
