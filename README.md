@@ -210,9 +210,10 @@ function global_variable(){
      return 'String';
 }
 ```
+
 Return global variable
 
-```php
+```
 <?php echo global_variable(); ?>
 ```
 
