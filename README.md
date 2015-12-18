@@ -27,10 +27,8 @@ function dashboard_widget_function() {
 	";
 } 
 
-// Create the function use in the action hook
 function add_dashboard_widgets() {
 	wp_add_dashboard_widget('example_dashboard_widget', 'Custom Dashoard Widget', 'dashboard_widget_function');
 }
-// Hook into the 'wp_dashboard_setup' action to register other functions
 add_action('wp_dashboard_setup', 'add_dashboard_widgets' );
 ```
