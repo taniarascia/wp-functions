@@ -32,3 +32,4 @@ function add_dashboard_widgets() {
 }
 add_action('wp_dashboard_setup', 'add_dashboard_widgets' );
 ```
+ 
