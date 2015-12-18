@@ -11,7 +11,6 @@
 * [Change Read More Link]()
 * [Change More Excerpt]()
 * [Disable Emoji Mess]()
-
 * [Support Featured Images]()
 * [Support Search Form]()
 
