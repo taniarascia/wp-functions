@@ -241,8 +241,6 @@ add_theme_support( 'html5', array( 'search-form' ) );
 
 ### Disable xmlrpc.php
 
-// Disable XMLRPC
-
 ```php
 // Disable XML RPC
 add_filter('xmlrpc_enabled', '__return_false');
@@ -297,16 +295,16 @@ Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
 ```php
 // Create Custom Global Settings
 function custom_settings_page() { ?>
-	    <div class="wrap">
-	    <h1>Custom Settings</h1>
-	    <form method="post" action="options.php">
-	        <?php
-	            settings_fields('section');
-	            do_settings_sections('theme-options');      
-	            submit_button(); 
-	        ?>          
-	    </form>
-		</div>
+  <div class="wrap">
+	<h1>Custom Settings</h1>
+	<form method="post" action="options.php">
+	   <?php
+	       settings_fields('section');
+	       do_settings_sections('theme-options');      
+	       submit_button(); 
+	   ?>          
+	</form>
+  </div>
 <?php }
 
 function custom_settings_add_menu() {
