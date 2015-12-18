@@ -1,7 +1,8 @@
 # Useful WordPress Functions
 
-* [Hide WordPress Update Nag to All But Admins](#Hide-WordPress-Update-Nag-to-All-But-Admins) 
-* [Create Custom WordPress Dashboard Widget](#Create-Custom-WordPress-Dashboard-Widget) 
+* [Hide WordPress Update Nag to All But Admins](#)
+* [Create Custom WordPress Dashboard Widget](#)
+* [Remove All Dashboard Widgets](#)
 
 
 ### Hide WordPress Update Nag to All But Admins
@@ -36,6 +37,7 @@ add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 ### Remove All Dashboard Widgets
 
 ```php
+// Remove All Dashboard Widgets
 function remove_dashboard_widgets() {
     global $wp_meta_boxes;
     unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
