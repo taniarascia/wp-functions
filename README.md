@@ -19,6 +19,7 @@
 * [Create a Global String](#create-a-global-string)
 * [Support Featured Images](#support-featured-images)
 * [Support Search Form](#support-search-form)
+* [Excluding pages from search](#excluding-pages-from-search)
 * [Disable XMLRPC](#disable-xmlrpc)
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
@@ -244,6 +245,17 @@ add_theme_support( 'post-thumbnails' );
 ```php
 // Support Search Form
 add_theme_support( 'html5', array( 'search-form' ) );
+```
+
+### Excluding pages from search
+
+```php
+// Excluding pages from search
+function exclude_pages_from_search() {
+    global $wp_post_types;
+    $wp_post_types['page']->exclude_from_search = true;
+}
+add_action('init', 'exclude_pages_from_search');
 ```
 
 ### Disable xmlrpc.php
