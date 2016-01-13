@@ -1,6 +1,9 @@
 # Useful WordPress Functions
 
+*Updated 1/13/16 - Added WordPress titles function*
+
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
+* [Create Proper WordPress Titles](#create-proper-wordpress-titles)
 * [Create Custom WordPress Dashboard Widget](#create-custom-wordpress-dashboard-widget)
 * [Remove All Dashboard Widgets](#remove-all-dashboard-widgets)
 * [Insert Custom Login Logo](#insert-custom-login-logo)
@@ -35,6 +38,37 @@ function hide_update_notice_to_all_but_admin() {
 }
 add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 ```
+
+### Create Proper WordPress Titles
+
+```php
+// WordPress Titles
+function wordpress_title( $title, $sep ) {
+	global $paged, $page;
+	if ( is_feed() ) {
+		return $title;
+	} 
+	// Add the site name.
+	$title .= get_bloginfo( 'name' );
+	// Add the site description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description && ( is_home() || is_front_page() ) ) {
+		$title = "$title $sep $site_description";
+	}
+	// Add a page number if necessary.
+	if ( $paged >= 2 || $page >= 2 ) {
+		$title = sprintf( __( 'Page %s', 'title' ), max( $paged, $page ) ) . " $sep $title";
+	} 
+	return $title;
+} 
+add_filter( 'wp_title', 'wordpress_title', 10, 2 );
+```
+
+Add to header.php
+
+```php <title><?php wp_title( '|', true, 'right' ); ?></title>```
+
+[Source](https://tommcfarlin.com/filter-wp-title)
 
 ### Create Custom WordPress Dashboard Widget
 
