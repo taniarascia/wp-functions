@@ -66,7 +66,9 @@ add_filter( 'wp_title', 'wordpress_title', 10, 2 );
 
 Add to header.php
 
-```php <title><?php wp_title( '|', true, 'right' ); ?></title>```
+```php 
+<title><?php wp_title( '|', true, 'right' ); ?></title>
+```
 
 [Source](https://tommcfarlin.com/filter-wp-title)
 
