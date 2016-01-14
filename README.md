@@ -42,7 +42,7 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 ### Create Proper WordPress Titles
 
 ```php
-// WordPress Titles
+// WordPress Title
 function wordpress_title( $title, $sep ) {
 	global $paged, $page;
 	if ( is_feed() ) {
@@ -55,10 +55,6 @@ function wordpress_title( $title, $sep ) {
 	if ( $site_description && ( is_home() || is_front_page() ) ) {
 		$title = "$title $sep $site_description";
 	}
-	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 ) {
-		$title = sprintf( __( 'Page %s', 'title' ), max( $paged, $page ) ) . " $sep $title";
-	} 
 	return $title;
 } 
 add_filter( 'wp_title', 'wordpress_title', 10, 2 );
