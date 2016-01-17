@@ -14,6 +14,7 @@
 * [Change Read More Link](#change-read-more-link)
 * [Change More Excerpt](#change-more-excerpt)
 * [Disable Emoji Mess](#disable-emoji-mess)
+* [Remove commentss](#remove-comments)
 * [Change Media Gallery URL](#change-media-gallery-url)
 * [Create Custom Thumbnail Size](#create-custom-thumbnail-size)
 * [Add Categories for Attachments](#add-categories-for-attachments)
