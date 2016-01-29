@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 1/13/16 - Added WordPress titles function*
+*Updated 1/28/16 - Updated WordPress titles function*
 
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
 * [Create Proper WordPress Titles](#create-proper-wordpress-titles)
@@ -40,6 +40,14 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 ```
 
 ### Create Proper WordPress Titles
+
+*Update*: As of WP 4.1, the long version is no longer required - simply add the following to functions.php and remove the `<title>` tag from your header.
+
+```php
+add_theme_support( 'title-tag' );
+```
+
+Here is the old version, in case you're on an older version of WP for some reason.
 
 ```php
 // WordPress Title
