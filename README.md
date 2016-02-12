@@ -26,6 +26,7 @@
 * [Disable XMLRPC](#disable-xmlrpc)
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
+* [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
 
 ### Hide WordPress Update Nag to All But Admins
 
@@ -390,3 +391,12 @@ Retrieve Field
 ```
 
 Modified from [Create a WordPress Theme Settings Page with the Settings API](http://www.sitepoint.com/create-a-wordpress-theme-settings-page-with-the-settings-api/).
+
+### Remove WordPress Admin Bar
+
+```php
+function remove_admin_bar() {
+	remove_action('wp_head', '_admin_bar_bump_cb');
+}
+add_action('get_header', 'remove_admin_bar');
+```
