@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 1/28/16 - Updated WordPress titles function*
+*Updated 2/12/16 - Add "Remove WordPress Admin Bar*
 
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
 * [Create Proper WordPress Titles](#create-proper-wordpress-titles)
