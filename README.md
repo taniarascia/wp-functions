@@ -14,6 +14,7 @@
 * [Change Read More Link](#change-read-more-link)
 * [Change More Excerpt](#change-more-excerpt)
 * [Disable Emoji Mess](#disable-emoji-mess)
+* [Remove commentss](#remove-comments)
 * [Change Media Gallery URL](#change-media-gallery-url)
 * [Create Custom Thumbnail Size](#create-custom-thumbnail-size)
 * [Add Categories for Attachments](#add-categories-for-attachments)
@@ -56,7 +57,7 @@ function wordpress_title( $title, $sep ) {
 	global $paged, $page;
 	if ( is_feed() ) {
 		return $title;
-	} 
+	}
 	// Add the site name.
 	$title .= get_bloginfo( 'name' );
 	// Add the site description for the home/front page.
@@ -65,7 +66,7 @@ function wordpress_title( $title, $sep ) {
 		$title = "$title $sep $site_description";
 	}
 	return $title;
-} 
+}
 add_filter( 'wp_title', 'wordpress_title', 10, 2 );
 ```
 
@@ -86,14 +87,14 @@ function dashboard_widget_function() {
 		<h2>Custom Dashboard Widget</h2>
 		<p>Custom content here</p>
 	';
-} 
+}
 
 function add_dashboard_widgets() {
 	wp_add_dashboard_widget('custom_dashboard_widget', 'Custom Dashoard Widget', 'dashboard_widget_function');
 }
 add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 ```
- 
+
 ### Remove All Dashboard Widgets
 
 ```php
@@ -215,6 +216,29 @@ function disable_emojicons_tinymce( $plugins ) {
   }
 }
 ```
+
+### Remove comments
+
+```php
+// Removes from admin menu
+add_action( 'admin_menu', 'my_remove_admin_menus' );
+function my_remove_admin_menus() {
+  remove_menu_page( 'edit-comments.php' );
+}
+// Removes from post and pages
+add_action('init', 'remove_comment_support', 100);
+function remove_comment_support() {
+  remove_post_type_support( 'post', 'comments' );
+  remove_post_type_support( 'page', 'comments' );
+}
+// Removes from admin bar
+function mytheme_admin_bar_render() {
+  global $wp_admin_bar;
+  $wp_admin_bar->remove_menu('comments');
+}
+add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
+```
+
 ### Change Media Gallery URL
 
 ```php
@@ -234,9 +258,9 @@ add_image_size( 'themename-nav-thumbnail', 250, 250, true );
 ```php
 // Add Categories for Attachments
 function add_categories_for_attachments() {
-	register_taxonomy_for_object_type( 'category', 'attachment' ); 
-} 
-add_action( 'init' , 'add_categories_for_attachments' ); 
+	register_taxonomy_for_object_type( 'category', 'attachment' );
+}
+add_action( 'init' , 'add_categories_for_attachments' );
 ```
 
 ### Add Tags for Attachments
@@ -244,8 +268,8 @@ add_action( 'init' , 'add_categories_for_attachments' );
 ```php
 // Add Tags for Attachments
 function add_tags_for_attachments() {
-	register_taxonomy_for_object_type( 'post_tag', 'attachment' ); 
-} 
+	register_taxonomy_for_object_type( 'post_tag', 'attachment' );
+}
 add_action( 'init' , 'add_tags_for_attachments' );
 ```
 
@@ -313,10 +337,10 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 ```php
 // Escape HTML in <code> or <pre><code> tags.
 function escapeHTML($arr) {
-	
+
 	if (version_compare(PHP_VERSION, '5.2.3') >= 0) {
-	
-		$output = htmlspecialchars($arr[2], ENT_NOQUOTES, get_bloginfo('charset'), false); 
+
+		$output = htmlspecialchars($arr[2], ENT_NOQUOTES, get_bloginfo('charset'), false);
 	}
 	else {
 		$specialChars = array(
@@ -324,7 +348,7 @@ function escapeHTML($arr) {
             '<' => '&lt;',
             '>' => '&gt;'
 		);
-		
+
 		// decode already converted data
 		$data = htmlspecialchars_decode($arr[2]);
 		// escapse all data inside <pre>
@@ -334,13 +358,13 @@ function escapeHTML($arr) {
 		return  $arr[1] . $output . $arr[3];
 	}	else 	{
 		return  $arr[1] . $arr[2] . $arr[3];
-	}	
+	}
 }
 function filterCode($data) { // Uncomment if you want to escape anything within a <pre> tag
-	//$modifiedData = preg_replace_callback('@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data); 
+	//$modifiedData = preg_replace_callback('@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data);
 	$modifiedData = preg_replace_callback('@(<code.*>)(.*)(<\/code>)@isU', 'escapeHTML', $data);
 	$modifiedData = preg_replace_callback('@(<tt.*>)(.*)(<\/tt>)@isU', 'escapeHTML', $modifiedData);
- 
+
 	return $modifiedData;
 }
 add_filter( 'content_save_pre', 'filterCode', 9 );
@@ -360,7 +384,7 @@ function custom_settings_page() { ?>
 	   <?php
 	       settings_fields('section');
 	       do_settings_sections('theme-options');      
-	       submit_button(); 
+	       submit_button();
 	   ?>          
 	</form>
   </div>
