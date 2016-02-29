@@ -253,12 +253,13 @@ update_option( 'upload_url_path', 'http://s3.website.com/wp-content/uploads' );
 add_image_size( 'custom-thumbnail', 250, 250, true );
 ```
 
-Retrieve Thumbnail
+**Retrieve Thumbnail**
 
  ```php
  <?php $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'custom-thumbnail' );
  
  echo $thumb[0]; ?>
+ ```
 
 ### Add Categories for Attachments
 
@@ -299,7 +300,7 @@ function global_string(){
 }
 ```
 
-Retrieve Field
+**Retrieve Field**
 
 ```php
 <?php echo global_string(); ?>
