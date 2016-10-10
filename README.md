@@ -134,7 +134,7 @@ add_action( 'login_head', 'custom_login_logo' );
 function modify_footer() {
   echo 'Created by <a href="mailto:you@example.com">you</a>.';
 }
-add_filter('admin_footer_text', 'modify_footer ');
+add_filter('admin_footer_text', 'modify_footer');
 ```
 
 ### Enqueue Styles and Scripts
