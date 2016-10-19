@@ -31,7 +31,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
 
-### Hide WordPress Update Nag to All But Admins
+## Hide WordPress Update Nag to All But Admins
 
 ```php
 // Hide WordPress Update Nag to All But Admins
@@ -43,7 +43,7 @@ function hide_update_notice_to_all_but_admin() {
 add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 ```
 
-### Create Proper WordPress Titles
+## Create Proper WordPress Titles
 
 *Update*: As of WP 4.1, the long version is no longer required - simply add the following to functions.php and remove the `<title>` tag from your header.
 
@@ -52,7 +52,7 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 add_theme_support( 'title-tag' );
 ```
 
-### Create Custom WordPress Dashboard Widget
+## Create Custom WordPress Dashboard Widget
 
 ```php
 // Create Custom WordPress Dashboard Widget
@@ -69,7 +69,7 @@ function add_dashboard_widgets() {
 add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 ```
 
-### Remove All Dashboard Widgets
+## Remove All Dashboard Widgets
 
 ```php
 // Remove All Dashboard Widgets
@@ -87,7 +87,7 @@ function remove_dashboard_widgets() {
 }
 add_action( 'wp_dashboard_setup', 'remove_dashboard_widgets' );
 ```
-### Insert Custom Login Logo
+## Insert Custom Login Logo
 
 ```php
 // Insert Custom Login Logo
@@ -101,17 +101,17 @@ function custom_login_logo() {
 add_action( 'login_head', 'custom_login_logo' );
 ```
 
-### Modify Admin Footer Text
+## Modify Admin Footer Text
 
 ```php
 // Modify Admin Footer Text
 function modify_footer() {
-  return 'Created by <a href="mailto:you@example.com">you</a>.';
+  echo 'Created by <a href="mailto:you@example.com">you</a>.';
 }
 add_filter( 'admin_footer_text', 'modify_footer' );
 ```
 
-### Enqueue Styles and Scripts
+## Enqueue Styles and Scripts
 
 ```php
 // Enqueue Styles and Scripts
@@ -125,7 +125,7 @@ function custom_scripts() {
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 ```
 
-### Enqueue Google Fonts
+## Enqueue Google Fonts
 
 ```php
 // Enqueue Google Fonts
@@ -137,7 +137,7 @@ function google_fonts() {
 add_action( 'wp_print_styles', 'google_fonts' );
 ```
 
-### Modify Excerpt Length
+## Modify Excerpt Length
 
 ```php
 // Modify Excerpt Length
@@ -147,7 +147,7 @@ function custom_excerpt_length( $length ) {
 add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 ```
 
-### Change Read More Link
+## Change Read More Link
 
 ```php
 // Change Read More Link
@@ -157,7 +157,7 @@ function custom_read_more_link() {
 add_filter( 'the_content_more_link', 'custom_read_more_link' );
 ```
 
-### Change More Excerpt
+## Change More Excerpt
 
 ```php
 // Change More Excerpt
@@ -167,7 +167,7 @@ function custom_more_excerpt( $more ) {
 add_filter( 'excerpt_more', 'custom_more_excerpt' );
 ```
 
-### Disable Emoji Mess
+## Disable Emoji Mess
 
 ```php
 // Disable Emoji Mess
@@ -191,7 +191,7 @@ function disable_emojicons_tinymce( $plugins ) {
 }
 ```
 
-### Remove Comments
+## Remove Comments
 
 ```php
 // Removes from admin menu
@@ -213,14 +213,14 @@ function mytheme_admin_bar_render() {
 add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 ```
 
-### Change Media Gallery URL
+## Change Media Gallery URL
 
 ```php
 // Change Media Gallery URL
 update_option( 'upload_url_path', 'http://s3.website.com/wp-content/uploads' );
 ```
 
-### Create Custom Thumbnail Size
+## Create Custom Thumbnail Size
 
 ```php
 // Add 250 x 250 Custom Thumbnail Size
@@ -235,7 +235,7 @@ add_image_size( 'custom-thumbnail', 250, 250, true );
  echo $thumb[0]; ?>
  ```
 
-### Add Categories for Attachments
+## Add Categories for Attachments
 
 ```php
 // Add Categories for Attachments
@@ -245,7 +245,7 @@ function add_categories_for_attachments() {
 add_action( 'init' , 'add_categories_for_attachments' );
 ```
 
-### Add Tags for Attachments
+## Add Tags for Attachments
 
 ```php
 // Add Tags for Attachments
@@ -255,7 +255,7 @@ function add_tags_for_attachments() {
 add_action( 'init' , 'add_tags_for_attachments' );
 ```
 
-### Add Custom Excerpt to Pages
+## Add Custom Excerpt to Pages
 
 ```php
 // Add Custom Excerpt to Pages
@@ -265,7 +265,7 @@ function add_page_excerpt() {
 add_action( 'init', 'add_page_excerpt' );
 ```
 
-### Create a Global String
+## Create a Global String
 
 ```php
 // Create a Global String
@@ -280,21 +280,21 @@ function global_string() {
 <?php echo global_string(); ?>
 ```
 
-### Support Featured Images
+## Support Featured Images
 
 ```php
 // Support Featured Images
 add_theme_support( 'post-thumbnails' );
 ```
 
-### Support Search Form
+## Support Search Form
 
 ```php
 // Support Search Form
 add_theme_support( 'html5', array( 'search-form' ) );
 ```
 
-### Excluding pages from search
+## Excluding pages from search
 
 ```php
 // Excluding pages from search
@@ -305,7 +305,7 @@ function exclude_pages_from_search() {
 add_action( 'init', 'exclude_pages_from_search' );
 ```
 
-### Disable xmlrpc.php
+## Disable xmlrpc.php
 
 ```php
 // Disable XML RPC
@@ -314,7 +314,7 @@ remove_action( 'wp_head', 'rsd_link' );
 remove_action( 'wp_head', 'wlwmanifest_link' );
 ```
 
-### Escape HTML in Posts
+## Escape HTML in Posts
 
 ```php
 // Escape HTML in <code> or <pre><code> tags.
@@ -355,7 +355,7 @@ add_filter( 'excerpt_save_pre', 'filterCode', 9 );
 
 Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
 
-### Create Custom Global Settings
+## Create Custom Global Settings
 
 ```php
 // Create Custom Global Settings
@@ -398,7 +398,7 @@ Retrieve Field
 
 Modified from [Create a WordPress Theme Settings Page with the Settings API](http://www.sitepoint.com/create-a-wordpress-theme-settings-page-with-the-settings-api/).
 
-### Remove WordPress Admin Bar
+## Remove WordPress Admin Bar
 
 ```php
 function remove_admin_bar() {
