@@ -1,6 +1,8 @@
 # Useful WordPress Functions
 
-*Updated 2/12/16 - Add "Remove WordPress Admin Bar*
+*Updated 10/19/2016 - improve consistency to code.*
+
+This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
 * [Create Proper WordPress Titles](#create-proper-wordpress-titles)
@@ -34,7 +36,7 @@
 ```php
 // Hide WordPress Update Nag to All But Admins
 function hide_update_notice_to_all_but_admin() {
-	if (!current_user_can('update_core')) {
+	if ( !current_user_can( 'update_core' ) ) {
 		remove_action( 'admin_notices', 'update_nag', 3 );
 	}
 }
@@ -46,37 +48,9 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 *Update*: As of WP 4.1, the long version is no longer required - simply add the following to functions.php and remove the `<title>` tag from your header.
 
 ```php
+// Create Proper WordPress Titles
 add_theme_support( 'title-tag' );
 ```
-
-Here is the old version, in case you're on an older version of WP for some reason.
-
-```php
-// WordPress Title
-function wordpress_title( $title, $sep ) {
-	global $paged, $page;
-	if ( is_feed() ) {
-		return $title;
-	}
-	// Add the site name.
-	$title .= get_bloginfo( 'name' );
-	// Add the site description for the home/front page.
-	$site_description = get_bloginfo( 'description', 'display' );
-	if ( $site_description && ( is_home() || is_front_page() ) ) {
-		$title = "$title $sep $site_description";
-	}
-	return $title;
-}
-add_filter( 'wp_title', 'wordpress_title', 10, 2 );
-```
-
-Add to header.php
-
-```html
-<title><?php wp_title( '|', true, 'right' ); ?></title>
-```
-
-[Source](https://tommcfarlin.com/filter-wp-title)
 
 ### Create Custom WordPress Dashboard Widget
 
@@ -90,7 +64,7 @@ function dashboard_widget_function() {
 }
 
 function add_dashboard_widgets() {
-	wp_add_dashboard_widget('custom_dashboard_widget', 'Custom Dashoard Widget', 'dashboard_widget_function');
+	wp_add_dashboard_widget( 'custom_dashboard_widget', 'Custom Dashoard Widget', 'dashboard_widget_function' );
 }
 add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 ```
@@ -101,17 +75,17 @@ add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 // Remove All Dashboard Widgets
 function remove_dashboard_widgets() {
     global $wp_meta_boxes;
-    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
-    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']);
-    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now']);
-    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins']);
-    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts']);
-    unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments']);
-    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_primary']);
-    unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary']);
+    unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
+    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links'] );
+    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now'] );
+    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins'] );
+    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts'] );
+    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments'] );
+    unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'] );
+    unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary'] );
   remove_meta_box( 'dashboard_activity', 'dashboard', 'normal' );
 }
-add_action('wp_dashboard_setup', 'remove_dashboard_widgets');
+add_action( 'wp_dashboard_setup', 'remove_dashboard_widgets' );
 ```
 ### Insert Custom Login Logo
 
@@ -120,9 +94,9 @@ add_action('wp_dashboard_setup', 'remove_dashboard_widgets');
 function custom_login_logo() {
     echo '
     	<style>
-        .login h1 a { background-image:url(IMAGE)!important;background-size: 234px 67px;width:234px;height:67px;display:block; }
+        .login h1 a { background-image: url(image.jpg) !important; background-size: 234px 67px; width:234px; height:67px; display:block; }
     	</style>
-    	';
+    ';
 }
 add_action( 'login_head', 'custom_login_logo' );
 ```
@@ -134,7 +108,7 @@ add_action( 'login_head', 'custom_login_logo' );
 function modify_footer() {
   echo 'Created by <a href="mailto:you@example.com">you</a>.';
 }
-add_filter('admin_footer_text', 'modify_footer');
+add_filter( 'admin_footer_text', 'modify_footer' );
 ```
 
 ### Enqueue Styles and Scripts
@@ -156,8 +130,8 @@ add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 ```php
 // Enqueue Google Fonts
 function google_fonts() {
-				wp_register_style('OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
-				wp_enqueue_style( 'OpenSans');
+				wp_register_style( 'OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
+				wp_enqueue_style( 'OpenSans' );
 		}
 
 add_action( 'wp_print_styles', 'google_fonts' );
@@ -190,7 +164,7 @@ add_filter( 'the_content_more_link', 'custom_read_more_link' );
 function custom_more_excerpt( $more ) {
 	return '...';
 }
-add_filter('excerpt_more', 'custom_more_excerpt');
+add_filter( 'excerpt_more', 'custom_more_excerpt' );
 ```
 
 ### Disable Emoji Mess
@@ -226,7 +200,7 @@ function my_remove_admin_menus() {
   remove_menu_page( 'edit-comments.php' );
 }
 // Removes from post and pages
-add_action('init', 'remove_comment_support', 100);
+add_action( 'init', 'remove_comment_support', 100 );
 function remove_comment_support() {
   remove_post_type_support( 'post', 'comments' );
   remove_post_type_support( 'page', 'comments' );
@@ -234,7 +208,7 @@ function remove_comment_support() {
 // Removes from admin bar
 function mytheme_admin_bar_render() {
   global $wp_admin_bar;
-  $wp_admin_bar->remove_menu('comments');
+  $wp_admin_bar->remove_menu( 'comments' );
 }
 add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 ```
@@ -286,16 +260,16 @@ add_action( 'init' , 'add_tags_for_attachments' );
 ```php
 // Add Custom Excerpt to Pages
 function add_page_excerpt() {
-	add_post_type_support('page', array('excerpt'));
+	add_post_type_support( 'page', array( 'excerpt' ) );
 }
-add_action('init', 'add_page_excerpt');
+add_action( 'init', 'add_page_excerpt' );
 ```
 
 ### Create a Global String
 
 ```php
 // Create a Global String
-function global_string(){
+function global_string() {
      return 'String';
 }
 ```
@@ -328,14 +302,14 @@ function exclude_pages_from_search() {
     global $wp_post_types;
     $wp_post_types['page']->exclude_from_search = true;
 }
-add_action('init', 'exclude_pages_from_search');
+add_action( 'init', 'exclude_pages_from_search' );
 ```
 
 ### Disable xmlrpc.php
 
 ```php
 // Disable XML RPC
-add_filter('xmlrpc_enabled', '__return_false');
+add_filter( 'xmlrpc_enabled', '__return_false' );
 remove_action( 'wp_head', 'rsd_link' );
 remove_action( 'wp_head', 'wlwmanifest_link' );
 ```
@@ -358,9 +332,9 @@ function escapeHTML($arr) {
 		);
 
 		// decode already converted data
-		$data = htmlspecialchars_decode($arr[2]);
+		$data = htmlspecialchars_decode( $arr[2] );
 		// escapse all data inside <pre>
-		$output = strtr($data, $specialChars);
+		$output = strtr( $data, $specialChars );
 	}
 	if (! empty($output)) {
 		return  $arr[1] . $output . $arr[3];
@@ -369,9 +343,9 @@ function escapeHTML($arr) {
 	}
 }
 function filterCode($data) { // Uncomment if you want to escape anything within a <pre> tag
-	//$modifiedData = preg_replace_callback('@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data);
-	$modifiedData = preg_replace_callback('@(<code.*>)(.*)(<\/code>)@isU', 'escapeHTML', $data);
-	$modifiedData = preg_replace_callback('@(<tt.*>)(.*)(<\/tt>)@isU', 'escapeHTML', $modifiedData);
+	//$modifiedData = preg_replace_callback( '@(<pre.*>)(.*)(<\/pre>)@isU', 'escapeHTML', $data );
+	$modifiedData = preg_replace_callback( '@(<code.*>)(.*)(<\/code>)@isU', 'escapeHTML', $data );
+	$modifiedData = preg_replace_callback( '@(<tt.*>)(.*)(<\/tt>)@isU', 'escapeHTML', $modifiedData );
 
 	return $modifiedData;
 }
@@ -390,8 +364,8 @@ function custom_settings_page() { ?>
 	<h1>Custom Settings</h1>
 	<form method="post" action="options.php">
 	   <?php
-	       settings_fields('section');
-	       do_settings_sections('theme-options');      
+	       settings_fields( 'section' );
+	       do_settings_sections( 'theme-options' );      
 	       submit_button();
 	   ?>          
 	</form>
@@ -399,7 +373,7 @@ function custom_settings_page() { ?>
 <?php }
 
 function custom_settings_add_menu() {
-  add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99);
+  add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99 );
 }
 add_action( 'admin_menu', 'custom_settings_add_menu' );
 
@@ -409,9 +383,9 @@ function setting_twitter() { ?>
 <?php }
 
 function custom_settings_page_setup() {
-	add_settings_section('section', 'All Settings', null, 'theme-options');
-	add_settings_field('twitter', 'Twitter Username', 'setting_twitter', 'theme-options', 'section');
-  register_setting('section', 'twitter');
+	add_settings_section( 'section', 'All Settings', null, 'theme-options' );
+	add_settings_field( 'twitter', 'Twitter Username', 'setting_twitter', 'theme-options', 'section' );
+  register_setting( 'section', 'twitter' );
 }
 add_action( 'admin_init', 'custom_settings_page_setup' );
 ```
@@ -419,7 +393,7 @@ add_action( 'admin_init', 'custom_settings_page_setup' );
 Retrieve Field
 
 ```php
-<?php echo get_option('twitter'); ?>
+<?php echo get_option( 'twitter' ); ?>
 ```
 
 Modified from [Create a WordPress Theme Settings Page with the Settings API](http://www.sitepoint.com/create-a-wordpress-theme-settings-page-with-the-settings-api/).
@@ -428,7 +402,7 @@ Modified from [Create a WordPress Theme Settings Page with the Settings API](htt
 
 ```php
 function remove_admin_bar() {
-	remove_action('wp_head', '_admin_bar_bump_cb');
+	remove_action( 'wp_head', '_admin_bar_bump_cb' );
 }
-add_action('get_header', 'remove_admin_bar');
+add_action( 'get_header', 'remove_admin_bar' );
 ```
