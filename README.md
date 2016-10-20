@@ -30,7 +30,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
-* [Implement preconnect to Google fonts in themes](#implement-preconnect-to-Google-fonts-in-themes)
+* [Implement preconnect to Google fonts in themes](#implement-preconnect-to-google-fonts-in-themes)
 
 ## Hide WordPress Update Nag to All But Admins
 
