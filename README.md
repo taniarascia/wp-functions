@@ -130,7 +130,7 @@ add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 ```php
 // Enqueue Google Fonts
 function google_fonts() {
-				wp_register_style( 'OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
+				wp_register_style( 'OpenSans', '//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
 				wp_enqueue_style( 'OpenSans' );
 		}
 
