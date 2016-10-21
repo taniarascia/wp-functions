@@ -74,16 +74,16 @@ add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 ```php
 // Remove All Dashboard Widgets
 function remove_dashboard_widgets() {
-    global $wp_meta_boxes;
-    unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
-    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links'] );
-    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now'] );
-    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins'] );
-    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts'] );
-    unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments'] );
-    unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'] );
-    unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary'] );
-  remove_meta_box( 'dashboard_activity', 'dashboard', 'normal' );
+	global $wp_meta_boxes;
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_right_now'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_plugins'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_drafts'] );
+	unset( $wp_meta_boxes['dashboard']['normal']['core']['dashboard_recent_comments'] );
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_primary'] );
+	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_secondary'] );
+	remove_meta_box( 'dashboard_activity', 'dashboard', 'normal' );
 }
 add_action( 'wp_dashboard_setup', 'remove_dashboard_widgets' );
 ```
@@ -92,11 +92,11 @@ add_action( 'wp_dashboard_setup', 'remove_dashboard_widgets' );
 ```php
 // Insert Custom Login Logo
 function custom_login_logo() {
-    echo '
-    	<style>
-        .login h1 a { background-image: url(image.jpg) !important; background-size: 234px 67px; width:234px; height:67px; display:block; }
-    	</style>
-    ';
+	echo '
+		<style>
+			.login h1 a { background-image: url(image.jpg) !important; background-size: 234px 67px; width:234px; height:67px; display:block; }
+		</style>
+	';
 }
 add_action( 'login_head', 'custom_login_logo' );
 ```
@@ -106,7 +106,7 @@ add_action( 'login_head', 'custom_login_logo' );
 ```php
 // Modify Admin Footer Text
 function modify_footer() {
-  echo 'Created by <a href="mailto:you@example.com">you</a>.';
+	echo 'Created by <a href="mailto:you@example.com">you</a>.';
 }
 add_filter( 'admin_footer_text', 'modify_footer' );
 ```
@@ -130,9 +130,9 @@ add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 ```php
 // Enqueue Google Fonts
 function google_fonts() {
-				wp_register_style( 'OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
-				wp_enqueue_style( 'OpenSans' );
-		}
+	wp_register_style( 'OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
+	wp_enqueue_style( 'OpenSans' );
+}
 
 add_action( 'wp_print_styles', 'google_fonts' );
 ```
@@ -172,22 +172,22 @@ add_filter( 'excerpt_more', 'custom_more_excerpt' );
 ```php
 // Disable Emoji Mess
 function disable_wp_emojicons() {
-  remove_action( 'admin_print_styles', 'print_emoji_styles' );
-  remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-  remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-  remove_action( 'wp_print_styles', 'print_emoji_styles' );
-  remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
-  remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-  remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
-  add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+	add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
 }
 add_action( 'init', 'disable_wp_emojicons' );
 function disable_emojicons_tinymce( $plugins ) {
-  if ( is_array( $plugins ) ) {
-    return array_diff( $plugins, array( 'wpemoji' ) );
-  } else {
-    return array();
-  }
+	if ( is_array( $plugins ) ) {
+		return array_diff( $plugins, array( 'wpemoji' ) );
+	} else {
+		return array();
+	}
 }
 ```
 
@@ -197,18 +197,18 @@ function disable_emojicons_tinymce( $plugins ) {
 // Removes from admin menu
 add_action( 'admin_menu', 'my_remove_admin_menus' );
 function my_remove_admin_menus() {
-  remove_menu_page( 'edit-comments.php' );
+	remove_menu_page( 'edit-comments.php' );
 }
 // Removes from post and pages
 add_action( 'init', 'remove_comment_support', 100 );
 function remove_comment_support() {
-  remove_post_type_support( 'post', 'comments' );
-  remove_post_type_support( 'page', 'comments' );
+	remove_post_type_support( 'post', 'comments' );
+	remove_post_type_support( 'page', 'comments' );
 }
 // Removes from admin bar
 function mytheme_admin_bar_render() {
-  global $wp_admin_bar;
-  $wp_admin_bar->remove_menu( 'comments' );
+	global $wp_admin_bar;
+	$wp_admin_bar->remove_menu( 'comments' );
 }
 add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 ```
@@ -231,7 +231,7 @@ add_image_size( 'custom-thumbnail', 250, 250, true );
 
  ```php
  <?php $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'custom-thumbnail' );
- 
+
  echo $thumb[0]; ?>
  ```
 
@@ -270,7 +270,7 @@ add_action( 'init', 'add_page_excerpt' );
 ```php
 // Create a Global String
 function global_string() {
-     return 'String';
+	return 'String';
 }
 ```
 
@@ -299,8 +299,8 @@ add_theme_support( 'html5', array( 'search-form' ) );
 ```php
 // Excluding pages from search
 function exclude_pages_from_search() {
-    global $wp_post_types;
-    $wp_post_types['page']->exclude_from_search = true;
+	global $wp_post_types;
+	$wp_post_types['page']->exclude_from_search = true;
 }
 add_action( 'init', 'exclude_pages_from_search' );
 ```
@@ -319,16 +319,14 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 ```php
 // Escape HTML in <code> or <pre><code> tags.
 function escapeHTML($arr) {
-
 	if (version_compare(PHP_VERSION, '5.2.3') >= 0) {
-
 		$output = htmlspecialchars($arr[2], ENT_NOQUOTES, get_bloginfo('charset'), false);
 	}
 	else {
 		$specialChars = array(
-            '&' => '&amp;',
-            '<' => '&lt;',
-            '>' => '&gt;'
+			'&' => '&amp;',
+			'<' => '&lt;',
+			'>' => '&gt;'
 		);
 
 		// decode already converted data
@@ -360,32 +358,32 @@ Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
 ```php
 // Create Custom Global Settings
 function custom_settings_page() { ?>
-  <div class="wrap">
+	<div class="wrap">
 	<h1>Custom Settings</h1>
 	<form method="post" action="options.php">
-	   <?php
-	       settings_fields( 'section' );
-	       do_settings_sections( 'theme-options' );      
-	       submit_button();
-	   ?>          
+		<?php
+			settings_fields( 'section' );
+			do_settings_sections( 'theme-options' );
+			submit_button();
+		?>
 	</form>
-  </div>
+	</div>
 <?php }
 
 function custom_settings_add_menu() {
-  add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99 );
+	add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99 );
 }
 add_action( 'admin_menu', 'custom_settings_add_menu' );
 
 // Example setting
 function setting_twitter() { ?>
-  <input type="text" name="twitter" id="twitter" value="<?php echo get_option('twitter'); ?>" />
+	<input type="text" name="twitter" id="twitter" value="<?php echo get_option('twitter'); ?>" />
 <?php }
 
 function custom_settings_page_setup() {
 	add_settings_section( 'section', 'All Settings', null, 'theme-options' );
 	add_settings_field( 'twitter', 'Twitter Username', 'setting_twitter', 'theme-options', 'section' );
-  register_setting( 'section', 'twitter' );
+	register_setting( 'section', 'twitter' );
 }
 add_action( 'admin_init', 'custom_settings_page_setup' );
 ```
