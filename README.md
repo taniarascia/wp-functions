@@ -30,6 +30,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
+* [Add Lead Class to First Paragraph](#add-lead-class-to-first-paragraph)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -404,3 +405,15 @@ function remove_admin_bar() {
 }
 add_action( 'get_header', 'remove_admin_bar' );
 ```
+
+## Add Lead Class to First Paragraph
+
+```php
+// Add Lead Class to First Paragraph
+function first_paragraph( $content ) {
+	return preg_replace('/<p([^>]+)?>/', '<p$1 class="lead">', $content, 1);
+}
+add_filter( 'the_content', 'first_paragraph' );
+```
+
+Adds a `lead` class to the first paragraph in [the_content](https://developer.wordpress.org/reference/functions/the_content/).
