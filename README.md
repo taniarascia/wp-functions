@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 10/19/2016 - improve consistency to code.*
+*Updated 10/22/2016 - improve consistency to code.*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
@@ -30,6 +30,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
+* [Add thumbnail column to post listing](#add-thumbnail-column-to-post-listing)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -406,3 +407,36 @@ function remove_admin_bar() {
 }
 add_action( 'get_header', 'remove_admin_bar' );
 ```
+## Add thumbnail column to post listing
+```php
+add_image_size( 'admin-list-thumb', 80, 80, false );
+
+// add featured thumbnail to admin post columns
+function wpcs_add_thumbnail_columns( $columns ) {
+    $columns = array(
+        'cb' => '<input type="checkbox" />',
+        'featured_thumb' => 'Thumbnail',
+        'title' => 'Title',
+        'author' => 'Author',
+        'categories' => 'Categories',
+        'tags' => 'Tags',
+        'comments' => '<span class="vers"><div title="Comments" class="comment-grey-bubble"></div></span>',
+        'date' => 'Date'
+    );
+    return $columns;
+}
+function wpcs_add_thumbnail_columns_data( $column, $post_id ) {
+    switch ( $column ) {
+    case 'featured_thumb':
+        echo '<a href="' . get_edit_post_link() . '">';
+        echo the_post_thumbnail( 'admin-list-thumb' );
+        echo '</a>';
+        break;
+    }
+}
+if ( function_exists( 'add_theme_support' ) ) {
+    add_filter( 'manage_posts_columns' , 'wpcs_add_thumbnail_columns' );
+    add_action( 'manage_posts_custom_column' , 'wpcs_add_thumbnail_columns_data', 10, 2 );
+    add_filter( 'manage_pages_columns' , 'wpcs_add_thumbnail_columns' );
+    add_action( 'manage_pages_custom_column' , 'wpcs_add_thumbnail_columns_data', 10, 2 );
+}
