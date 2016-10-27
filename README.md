@@ -26,7 +26,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Support Featured Images](#support-featured-images)
 * [Support Search Form](#support-search-form)
 * [Excluding pages from search](#excluding-pages-from-search)
-* [Disable XMLRPC](#disable-xmlrpc)
+* [Disable XMLRPC](#disable-xmlrpcphp)
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
