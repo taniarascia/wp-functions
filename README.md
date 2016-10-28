@@ -30,6 +30,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
+* [Implement preconnect to Google fonts in themes](#implement-preconnect-to-google-fonts-in-themes)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -405,4 +406,29 @@ function remove_admin_bar() {
 	remove_action( 'wp_head', '_admin_bar_bump_cb' );
 }
 add_action( 'get_header', 'remove_admin_bar' );
+```
+
+## Implement preconnect to Google fonts in themes
+```php
+function twentyfifteen_resource_hints( $urls, $relation_type ) {
+	// Checks whether the subject is carrying the source of fonts google and the `$relation_type` equals preconnect.
+	// Replace `enqueue_font_id` the `ID` used in loading the source.
+	if ( wp_style_is( 'enqueue_font_id', 'queue' ) && 'preconnect' === $relation_type ) {
+		// Checks whether the version of WordPress is greater than or equal to 4.7
+		// to ensure conmpatibilidade with older versions
+		// because the 4.7 has become necessary to return an array instead of string
+		if ( version_compare( $GLOBALS['wp_version'], '4.7-alpha', '>=' ) ) {
+			// Array with url google fonts and crossorigin
+			$urls[] = array(
+				'href' => 'https://fonts.gstatic.com',
+				'crossorigin',
+			);
+		} else {
+			// String with url google fonts
+			$urls[] = 'https://fonts.gstatic.com';
+		}
+	}
+	return $urls;
+}
+add_filter( 'wp_resource_hints', 'twentyfifteen_resource_hints', 10, 2 ); 
 ```
