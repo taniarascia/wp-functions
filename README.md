@@ -411,32 +411,31 @@ add_action( 'get_header', 'remove_admin_bar' );
 ```php
 add_image_size( 'admin-list-thumb', 80, 80, false );
 
-// add featured thumbnail to admin post columns
 function wpcs_add_thumbnail_columns( $columns ) {
-    $columns = array(
-        'cb' => '<input type="checkbox" />',
-        'featured_thumb' => 'Thumbnail',
-        'title' => 'Title',
-        'author' => 'Author',
-        'categories' => 'Categories',
-        'tags' => 'Tags',
-        'comments' => '<span class="vers"><div title="Comments" class="comment-grey-bubble"></div></span>',
-        'date' => 'Date'
-    );
-    return $columns;
+     
+    if ( !is_array( $columns ) )
+        $columns = array();
+    $new = array();
+
+    foreach( $columns as $key => $title ) {
+        if ( $key == 'title' ) // Put the Thumbnail column before the Title column
+            $new['featured_thumb'] = __( 'Image');
+        $new[$key] = $title;
+    }
+    return $new;
 }
+
 function wpcs_add_thumbnail_columns_data( $column, $post_id ) {
     switch ( $column ) {
     case 'featured_thumb':
-        echo '<a href="' . get_edit_post_link() . '">';
+        echo '<a href="' . $post_id . '">';
         echo the_post_thumbnail( 'admin-list-thumb' );
         echo '</a>';
         break;
     }
 }
+
 if ( function_exists( 'add_theme_support' ) ) {
     add_filter( 'manage_posts_columns' , 'wpcs_add_thumbnail_columns' );
     add_action( 'manage_posts_custom_column' , 'wpcs_add_thumbnail_columns_data', 10, 2 );
-    add_filter( 'manage_pages_columns' , 'wpcs_add_thumbnail_columns' );
-    add_action( 'manage_pages_custom_column' , 'wpcs_add_thumbnail_columns_data', 10, 2 );
 }
