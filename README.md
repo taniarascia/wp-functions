@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 10/19/2016 - improve consistency to code.*
+*Updated 10/22/2016 - improve consistency to code.*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
@@ -30,7 +30,8 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
-* [Implement preconnect to Google fonts in themes](#implement-preconnect-to-google-fonts-in-themes)
+* [Implement Preconnect to Google Fonts in Themes](#implement-preconnect-to-google-fonts-in-themes)
+* [Add Thumbnail Column to Post Listing](#add-thumbnail-column-to-post-listing)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -408,7 +409,8 @@ function remove_admin_bar() {
 add_action( 'get_header', 'remove_admin_bar' );
 ```
 
-## Implement preconnect to Google fonts in themes
+## Implement Preconnect to Google Fonts in Themes
+
 ```php
 function twentyfifteen_resource_hints( $urls, $relation_type ) {
 	// Checks whether the subject is carrying the source of fonts google and the `$relation_type` equals preconnect.
@@ -431,4 +433,39 @@ function twentyfifteen_resource_hints( $urls, $relation_type ) {
 	return $urls;
 }
 add_filter( 'wp_resource_hints', 'twentyfifteen_resource_hints', 10, 2 ); 
+```
+
+## Add Thumbnail Column to Post Listing
+
+```php
+add_image_size( 'admin-list-thumb', 80, 80, false );
+
+function wpcs_add_thumbnail_columns( $columns ) {
+     
+    if ( !is_array( $columns ) )
+        $columns = array();
+    $new = array();
+
+    foreach( $columns as $key => $title ) {
+        if ( $key == 'title' ) // Put the Thumbnail column before the Title column
+            $new['featured_thumb'] = __( 'Image');
+        $new[$key] = $title;
+    }
+    return $new;
+}
+
+function wpcs_add_thumbnail_columns_data( $column, $post_id ) {
+    switch ( $column ) {
+    case 'featured_thumb':
+        echo '<a href="' . $post_id . '">';
+        echo the_post_thumbnail( 'admin-list-thumb' );
+        echo '</a>';
+        break;
+    }
+}
+
+if ( function_exists( 'add_theme_support' ) ) {
+    add_filter( 'manage_posts_columns' , 'wpcs_add_thumbnail_columns' );
+    add_action( 'manage_posts_custom_column' , 'wpcs_add_thumbnail_columns_data', 10, 2 );
+}
 ```
