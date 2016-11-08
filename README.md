@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 10/22/2016 - improve consistency to code.*
+*Updated 11/8/2015 - Add Open Graph meta tags and custom post type.*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
@@ -30,6 +30,8 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Escape HTML in Posts](#escape-html-in-posts)
 * [Create Custom Global Settings](#create-custom-global-settings)
 * [Remove WordPress Admin Bar](#remove-wordpress-admin-bar)
+* [Add Open Graph Meta Tags](#add-open-graph-meta-tags)
+* [Add Custom Post Type](#add-custom-post-type)
 * [Implement Preconnect to Google Fonts in Themes](#implement-preconnect-to-google-fonts-in-themes)
 * [Add Thumbnail Column to Post Listing](#add-thumbnail-column-to-post-listing)
 * [Add Lead Class to First Paragraph](#add-lead-class-to-first-paragraph)
@@ -409,6 +411,73 @@ function remove_admin_bar() {
 	remove_action( 'wp_head', '_admin_bar_bump_cb' );
 }
 add_action( 'get_header', 'remove_admin_bar' );
+```
+
+## Add Open Graph Meta Tags
+
+```php
+// Add Open Graph Meta Tags
+function meta_og() {
+	global $post;
+	if ( is_single() ) {
+		if(has_post_thumbnail($post->ID)) {
+			$img_src = wp_get_attachment_image_src(get_post_thumbnail_id( $post->ID ), 'thumbnail');
+		} 
+		$excerpt = strip_tags($post->post_content);
+		$excerpt_more = '';
+		if (strlen($excerpt) > 155) {
+			$excerpt = substr($excerpt,0,155);
+			$excerpt_more = ' ...';
+		}
+		$excerpt = str_replace('"', '', $excerpt);
+		$excerpt = str_replace("'", '', $excerpt);
+		$excerptwords = preg_split('/[\n\r\t ]+/', $excerpt, -1, PREG_SPLIT_NO_EMPTY);
+		array_pop($excerptwords);
+		$excerpt = implode(' ', $excerptwords) . $excerpt_more;
+		?>
+<meta name="author" content="Your Name">
+<meta name="description" content="<?php echo $excerpt; ?>">
+<meta property="og:title" content="<?php echo the_title(); ?>">
+<meta property="og:description" content="<?php echo $excerpt; ?>">
+<meta property="og:type" content="article">
+<meta property="og:url" content="<?php echo the_permalink(); ?>">
+<meta property="og:site_name" content="Your Site Name">
+<meta property="og:image" content="<?php echo $img_src[0]; ?>">
+<?php
+	} else {
+			return;
+	}
+}
+add_action('wp_head', 'meta_og', 5);
+```
+
+## Add Custom Post Type
+
+```php
+// Create Custom Post Type
+function create_custom_post() {
+	register_post_type('custom-post', // slug for custom post type
+		array(
+		'labels' => array(
+			'name' => __('Custom Post'),
+		),
+		'public' => true,
+		'hierarchical' => true, 
+		'has_archive' => true,
+		'supports' => array(
+			'title',
+			'editor',
+			'excerpt',
+			'thumbnail'
+		), 
+		'can_export' => true,
+		'taxonomies' => array(
+				'post_tag',
+				'category'
+		)
+	));
+}
+add_action('init', 'create_custom_post');
 ```
 
 ## Implement Preconnect to Google Fonts in Themes
