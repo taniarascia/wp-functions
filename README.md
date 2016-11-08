@@ -377,7 +377,7 @@ function custom_settings_page() { ?>
 <?php }
 
 function custom_settings_add_menu() {
-	add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99 );
+	add_theme_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99 );
 }
 add_action( 'admin_menu', 'custom_settings_add_menu' );
 
