@@ -242,6 +242,12 @@ add_image_size( 'custom-thumbnail', 250, 250, true );
 
  echo $thumb[0]; ?>
  ```
+ 
+ Since WordPress 4.4.0 you can use:
+ 
+ ```php
+ the_post_thumbnail_url( $size );
+ ```
 
 ## Add Categories for Attachments
 
