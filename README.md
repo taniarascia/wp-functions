@@ -134,15 +134,73 @@ add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 
 ```php
 // Enqueue Google Fonts
-function google_fonts() {
-				wp_register_style( 'OpenSans', '//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
-				wp_enqueue_style( 'OpenSans' );
-		}
-	wp_register_style( 'OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
-	wp_enqueue_style( 'OpenSans' );
+add_action( 'after_setup_theme', 'mytheme_theme_setup' );
+if ( ! function_exists( 'mytheme_theme_setup' ) ) {
+	/**
+	 * Sets up theme defaults and registers support for various WordPress features.
+	 *
+	 * Note that this function is hooked into the after_setup_theme hook, which
+	 * runs before the init hook. The init hook is too late for some features, such
+	 * as indicating support for post thumbnails.
+	 *
+	 * @since  1.0.0
+	 */
+	function mytheme_theme_setup() {
+		add_action( 'wp_enqueue_scripts', 'mytheme_frontend_scripts' );
+	}
 }
 
-add_action( 'wp_print_styles', 'google_fonts' );
+
+if ( ! function_exists( 'mytheme_frontend_scripts' ) ) {
+	/**
+	 * Enqueue scripts and styles.
+	 *
+	 * @since 1.0.0
+	 */
+	function mytheme_frontend_scripts() {
+
+		wp_enqueue_style( 'google_fonts', google_fonts_url(), array(), null );
+
+	}
+}
+
+if ( ! function_exists( 'google_fonts_url' ) ) {
+	/**
+	 * Register Google fonts
+	 *
+	 * @since 1.0.0
+	 * @return string Google fonts URL for the theme.
+	 */
+	function google_fonts_url() {
+		$fonts_url = '';
+		$ubuntu   = esc_html_x( 'on', 'Ubuntu font: on or off', 'mytheme' );
+		$vollkorn = esc_html_x( 'on', 'Vollkorn font: on or off', 'mytheme' );
+		$roboto   = esc_html_x( 'on', 'Roboto font: on or off', 'mytheme' );
+
+		/*
+		 * Translators: If there are characters in your language that are not supported
+		 * by Ubuntu, Vollkorn or Roboto, translate this to 'off'. Do not translate into your own language.
+		 */
+		if ( 'off' !== $ubuntu || 'off' !== $vollkorn || 'off' !== $roboto ) {
+			$font_families = array();
+			if ( 'off' !== $ubuntu ) {
+				$font_families[] = 'Ubuntu:300';
+			}
+			if ( 'off' !== $vollkorn ) {
+				$font_families[] = 'Vollkorn:400italic';
+			}
+			if ( 'off' !== $roboto ) {
+				$font_families[] = 'Roboto Condensed:700';
+			}
+			$query_args = array(
+				'family' => rawurlencode( implode( '|', $font_families ) ),
+			);
+			$fonts_url = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+		}
+		return esc_url_raw( $fonts_url );
+	}
+}
+
 ```
 
 ## Modify Excerpt Length
