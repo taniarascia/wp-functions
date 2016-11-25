@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 10/19/2016 - improve consistency to code.*
+*Updated 11/25/2016 - improve consistency to code.*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
