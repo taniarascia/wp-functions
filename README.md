@@ -35,6 +35,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Implement Preconnect to Google Fonts in Themes](#implement-preconnect-to-google-fonts-in-themes)
 * [Add Thumbnail Column to Post Listing](#add-thumbnail-column-to-post-listing)
 * [Add Lead Class to First Paragraph](#add-lead-class-to-first-paragraph)
+* [Exclude Custom Post Type from Search](#exclude-custom-post-type-from-search)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -553,3 +554,16 @@ add_filter( 'the_content', 'first_paragraph' );
 ```
 
 Adds a `lead` class to the first paragraph in [the_content](https://developer.wordpress.org/reference/functions/the_content/).
+
+## Exclude Custom Post Type from Search
+
+```php
+// Filter search
+function excludePages($query) {
+if ($query->is_search) {
+	$query->set('post_type', 'post');
+}
+	return $query;
+}
+add_filter('pre_get_posts','excludePages');
+```
