@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 11/8/2016 - Add Open Graph meta tags and custom post type.*
+*Updated 1/8/2017 - Exclude custom post type from search*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
