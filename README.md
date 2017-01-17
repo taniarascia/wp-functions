@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 1/17/2017 - Exclude custom post type from search*
+*Updated 1/17/2017 - Edit to "Remove Emoji mess"*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
