@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 1/8/2017 - Exclude custom post type from search*
+*Updated 1/17/2017 - Exclude custom post type from search*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
@@ -185,6 +185,7 @@ function disable_wp_emojicons() {
 	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
 	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 	add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+	add_filter( 'emoji_svg_url', '__return_false' );
 }
 add_action( 'init', 'disable_wp_emojicons' );
 function disable_emojicons_tinymce( $plugins ) {
