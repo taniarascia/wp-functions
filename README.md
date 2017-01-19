@@ -58,7 +58,7 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 
 ```php
 /**
- * // Create Proper WordPress Titles
+ * Create Proper WordPress Titles
  */
 
 add_theme_support( 'title-tag' );
