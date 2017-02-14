@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 1/19/2017 - Cleanup*
+*Updated 2/14/2017 - Remove query string*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
@@ -36,6 +36,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Add Thumbnail Column to Post Listing](#add-thumbnail-column-to-post-listing)
 * [Add Lead Class to First Paragraph](#add-lead-class-to-first-paragraph)
 * [Exclude Custom Post Type from Search](#exclude-custom-post-type-from-search)
+* [Remove Query String from Static Resources](#remove-query-string-from-static-resources)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -668,3 +669,16 @@ if ( $query->is_search ) {
 }
 add_filter( 'pre_get_posts','excludePages' );
 ```
+
+## Remove Query String from Static Resources
+
+```php
+function remove_cssjs_ver( $src ) {
+ if( strpos( $src, '?ver=' ) )
+ $src = remove_query_arg( 'ver', $src );
+ return $src;
+}
+add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
+add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
+```
+
