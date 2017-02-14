@@ -673,6 +673,10 @@ add_filter( 'pre_get_posts','excludePages' );
 ## Remove Query String from Static Resources
 
 ```php
+/**
+ * Remove Query String from Static Resources 
+ */
+ 
 function remove_cssjs_ver( $src ) {
  if( strpos( $src, '?ver=' ) )
  $src = remove_query_arg( 'ver', $src );
