@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 2/14/2017 - Remove query string*
+*Updated 2/17/2017 -Disable Website Field From Comment Form*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
@@ -37,6 +37,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Add Lead Class to First Paragraph](#add-lead-class-to-first-paragraph)
 * [Exclude Custom Post Type from Search](#exclude-custom-post-type-from-search)
 * [Remove Query String from Static Resources](#remove-query-string-from-static-resources)
+* [Disable Website Field From Comment Form](#disable-website-field-from-comment-form)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -686,3 +687,19 @@ add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
 add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
 ```
 
+##  Disable Website Field From Comment Form
+
+```php
+/** 
+ * Disable Website Field From Comment Form
+ */
+
+function disable_website_field( $field ) { 
+	if( isset($field['url']) ) {
+		unset( $field['url'] );
+	}
+	return $field;
+}
+
+add_filter('comment_form_default_fields', 'disable_website_field');
+```
