@@ -8,6 +8,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Create Proper WordPress Titles](#create-proper-wordpress-titles)
 * [Create Custom WordPress Dashboard Widget](#create-custom-wordpress-dashboard-widget)
 * [Remove All Dashboard Widgets](#remove-all-dashboard-widgets)
+* [Include Navigation Menus](#include-navigation-menus)
 * [Insert Custom Login Logo](#insert-custom-login-logo)
 * [Modify Admin Footer Text](#modify-admin-footer-text)
 * [Enqueue Styles and Scripts](#enqueue-styles-and-scripts)
@@ -107,6 +108,26 @@ function remove_dashboard_widgets() {
 }
 add_action( 'wp_dashboard_setup', 'remove_dashboard_widgets' );
 ```
+
+## Include Navigation Menus
+
+```php
+/** 
+ * Include navigation menu
+ */
+
+function register_my_menu() {
+  register_nav_menu('nav-menu',__( 'Navigation Menu' ));
+}
+add_action( 'init', 'register_my_menu' );
+```
+
+Insert this where you want it to appear, and save the menu in **Appearance -> Menus**.
+
+```php
+<?php wp_nav_menu( array( 'theme_location' => 'nav-menu' ) ); ?>
+```
+
 ## Insert Custom Login Logo
 
 ```php
