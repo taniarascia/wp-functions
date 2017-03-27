@@ -1,6 +1,6 @@
 # Useful WordPress Functions
 
-*Updated 2/17/2017 -Disable Website Field From Comment Form*
+*Updated 3/27/2017 - Include navigation menus*
 
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
