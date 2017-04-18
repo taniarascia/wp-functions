@@ -1,7 +1,5 @@
 # Useful WordPress Functions
 
-*Updated 3/27/2017 - Include navigation menus*
-
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
