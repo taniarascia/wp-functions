@@ -1,7 +1,5 @@
 # Useful WordPress Functions
 
-*Updated 3/27/2017 - Include navigation menus*
-
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
@@ -39,6 +37,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Exclude Custom Post Type from Search](#exclude-custom-post-type-from-search)
 * [Remove Query String from Static Resources](#remove-query-string-from-static-resources)
 * [Disable Website Field From Comment Form](#disable-website-field-from-comment-form)
+* [Modify jQuery](#modify-jquery)
 * [Disable JSON Rest API](#disable-json-rest-api)
 
 ## Hide WordPress Update Nag to All But Admins
@@ -249,11 +248,7 @@ function disable_wp_emojicons() {
 }
 add_action( 'init', 'disable_wp_emojicons' );
 function disable_emojicons_tinymce( $plugins ) {
-	if ( is_array( $plugins ) ) {
-		return array_diff( $plugins, array( 'wpemoji' ) );
-	} else {
-		return array();
-	}
+	return is_array( $plugins ) ? array_diff( $plugins, array( 'wpemoji' ) ) : array();
 }
 ```
 
@@ -709,6 +704,24 @@ add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
 add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
 ```
 
+## Modify jQuery
+
+```php
+/**
+ * modify jquery
+ */
+function modify_jquery() {
+    if ( !is_admin() && !is_login_page() ) {
+        // comment out the next two lines to load the local copy of jQuery
+        wp_deregister_script('jquery');
+        // wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js', false, '2.2.4');
+        wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, '3.2.1');
+        wp_enqueue_script('jquery');
+    }
+}
+add_action( 'init', 'modify_jquery' );
+```
+
 ##  Disable Website Field From Comment Form
 
 ```php
@@ -725,7 +738,6 @@ function disable_website_field( $field ) {
 
 add_filter('comment_form_default_fields', 'disable_website_field');
 ```
-
 ##  Disable JSON Rest API
 
 ```php
