@@ -38,6 +38,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Remove Query String from Static Resources](#remove-query-string-from-static-resources)
 * [Disable Website Field From Comment Form](#disable-website-field-from-comment-form)
 * [Modify jQuery](#modify-jquery)
+* [Disable JSON Rest API](#disable-json-rest-api)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -736,4 +737,14 @@ function disable_website_field( $field ) {
 }
 
 add_filter('comment_form_default_fields', 'disable_website_field');
+```
+##  Disable JSON Rest API
+
+```php
+/** 
+ * Disable JSON Rest API  
+ */
+
+add_filter('json_enabled', '__return_false');
+add_filter('json_jsonp_enabled', '__return_false');
 ```
