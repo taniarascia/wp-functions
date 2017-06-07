@@ -1,13 +1,12 @@
 # Useful WordPress Functions
 
-*Updated 11/8/2015 - Add Open Graph meta tags and custom post type.*
-
 This is a list of useful WordPress functions that I often reference to enhance or clean up my sites. Please be careful and make backups.
 
 * [Hide WordPress Update Nag to All But Admins](#hide-wordpress-update-nag-to-all-but-admins)
 * [Create Proper WordPress Titles](#create-proper-wordpress-titles)
 * [Create Custom WordPress Dashboard Widget](#create-custom-wordpress-dashboard-widget)
 * [Remove All Dashboard Widgets](#remove-all-dashboard-widgets)
+* [Include Navigation Menus](#include-navigation-menus)
 * [Insert Custom Login Logo](#insert-custom-login-logo)
 * [Modify Admin Footer Text](#modify-admin-footer-text)
 * [Enqueue Styles and Scripts](#enqueue-styles-and-scripts)
@@ -35,11 +34,19 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Implement Preconnect to Google Fonts in Themes](#implement-preconnect-to-google-fonts-in-themes)
 * [Add Thumbnail Column to Post Listing](#add-thumbnail-column-to-post-listing)
 * [Add Lead Class to First Paragraph](#add-lead-class-to-first-paragraph)
+* [Exclude Custom Post Type from Search](#exclude-custom-post-type-from-search)
+* [Remove Query String from Static Resources](#remove-query-string-from-static-resources)
+* [Disable Website Field From Comment Form](#disable-website-field-from-comment-form)
+* [Modify jQuery](#modify-jquery)
+* [Disable JSON Rest API](#disable-json-rest-api)
 
 ## Hide WordPress Update Nag to All But Admins
 
 ```php
-// Hide WordPress Update Nag to All But Admins
+/**
+ * Hide WordPress Update Nag to All But Admins
+ */
+ 
 function hide_update_notice_to_all_but_admin() {
 	if ( !current_user_can( 'update_core' ) ) {
 		remove_action( 'admin_notices', 'update_nag', 3 );
@@ -53,14 +60,20 @@ add_action( 'admin_head', 'hide_update_notice_to_all_but_admin', 1 );
 *Update*: As of WP 4.1, the long version is no longer required - simply add the following to functions.php and remove the `<title>` tag from your header.
 
 ```php
-// Create Proper WordPress Titles
+/**
+ * Create Proper WordPress Titles
+ */
+
 add_theme_support( 'title-tag' );
 ```
 
 ## Create Custom WordPress Dashboard Widget
 
 ```php
-// Create Custom WordPress Dashboard Widget
+/**
+ * Create Custom WordPress Dashboard Widget
+ */
+ 
 function dashboard_widget_function() {
 	echo '
 		<h2>Custom Dashboard Widget</h2>
@@ -77,7 +90,10 @@ add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 ## Remove All Dashboard Widgets
 
 ```php
-// Remove All Dashboard Widgets
+/**
+ * Remove All Dashboard Widgets
+ */
+ 
 function remove_dashboard_widgets() {
 	global $wp_meta_boxes;
 	unset( $wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press'] );
@@ -92,10 +108,48 @@ function remove_dashboard_widgets() {
 }
 add_action( 'wp_dashboard_setup', 'remove_dashboard_widgets' );
 ```
+
+## Include Navigation Menus
+
+```php
+/** 
+ * Include navigation menu
+ */
+
+function register_my_menu() {
+  register_nav_menu('nav-menu',__( 'Navigation Menu' ));
+}
+add_action( 'init', 'register_my_menu' );
+```
+
+Insert this where you want it to appear, and save the menu in **Appearance -> Menus**.
+
+```php
+<?php wp_nav_menu( array( 'theme_location' => 'nav-menu' ) ); ?>
+```
+
+Here's the code for multiple menus/
+
+```php
+function register_my_menus() {
+	register_nav_menus(
+		array(
+			'new-menu' => __( 'New Menu' ),
+			'another-menu' => __( 'Another Menu' ),
+			'an-extra-menu' => __( 'An Extra Menu' )
+		)
+	);
+}
+add_action( 'init', 'register_my_menus' );
+```
+
 ## Insert Custom Login Logo
 
 ```php
-// Insert Custom Login Logo
+/**
+ * Insert Custom Login Logo
+ */
+ 
 function custom_login_logo() {
 	echo '
 		<style>
@@ -109,7 +163,10 @@ add_action( 'login_head', 'custom_login_logo' );
 ## Modify Admin Footer Text
 
 ```php
-// Modify Admin Footer Text
+/**
+ * Modify Admin Footer Text
+ */
+ 
 function modify_footer() {
 	echo 'Created by <a href="mailto:you@example.com">you</a>.';
 }
@@ -119,7 +176,10 @@ add_filter( 'admin_footer_text', 'modify_footer' );
 ## Enqueue Styles and Scripts
 
 ```php
-// Enqueue Styles and Scripts
+/**
+ * Enqueue Styles and Scripts
+ */
+ 
 function custom_scripts() {
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css', array(), '3.3.6' );
 	wp_enqueue_style( 'style', get_template_directory_uri() . '/css/style.css' );
@@ -133,22 +193,24 @@ add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 ## Enqueue Google Fonts
 
 ```php
-// Enqueue Google Fonts
+/**
+ * Enqueue Google Fonts
+ */
+ 
 function google_fonts() {
 				wp_register_style( 'OpenSans', '//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
 				wp_enqueue_style( 'OpenSans' );
 		}
-	wp_register_style( 'OpenSans', 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' );
-	wp_enqueue_style( 'OpenSans' );
-}
-
 add_action( 'wp_print_styles', 'google_fonts' );
 ```
 
 ## Modify Excerpt Length
 
 ```php
-// Modify Excerpt Length
+/**
+ * Modify Excerpt Length
+ */
+ 
 function custom_excerpt_length( $length ) {
 	return 25;
 }
@@ -158,7 +220,10 @@ add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 ## Change Read More Link
 
 ```php
-// Change Read More Link
+/**
+ * Change Read More Link
+ */
+ 
 function custom_read_more_link() {
 	return '<a href="' . get_permalink() . '">Read More</a>';
 }
@@ -168,7 +233,10 @@ add_filter( 'the_content_more_link', 'custom_read_more_link' );
 ## Change More Excerpt
 
 ```php
-// Change More Excerpt
+/**
+ * Change More Excerpt
+ */
+ 
 function custom_more_excerpt( $more ) {
 	return '...';
 }
@@ -178,7 +246,10 @@ add_filter( 'excerpt_more', 'custom_more_excerpt' );
 ## Disable Emoji Mess
 
 ```php
-// Disable Emoji Mess
+/**
+ * Disable Emoji Mess
+ */
+ 
 function disable_wp_emojicons() {
 	remove_action( 'admin_print_styles', 'print_emoji_styles' );
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
@@ -188,20 +259,21 @@ function disable_wp_emojicons() {
 	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
 	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 	add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+	add_filter( 'emoji_svg_url', '__return_false' );
 }
 add_action( 'init', 'disable_wp_emojicons' );
 function disable_emojicons_tinymce( $plugins ) {
-	if ( is_array( $plugins ) ) {
-		return array_diff( $plugins, array( 'wpemoji' ) );
-	} else {
-		return array();
-	}
+	return is_array( $plugins ) ? array_diff( $plugins, array( 'wpemoji' ) ) : array();
 }
 ```
 
 ## Remove Comments
 
 ```php
+/**
+ * Remove Comments
+ */
+ 
 // Removes from admin menu
 add_action( 'admin_menu', 'my_remove_admin_menus' );
 function my_remove_admin_menus() {
@@ -224,14 +296,20 @@ add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
 ## Change Media Gallery URL
 
 ```php
-// Change Media Gallery URL
-update_option( 'upload_url_path', 'http://s3.website.com/wp-content/uploads' );
+/**
+ * Change Media Gallery URL
+ */
+ 
+update_option( 'upload_url_path', 'http://assets.website.com/wp-content/uploads' );
 ```
 
 ## Create Custom Thumbnail Size
 
 ```php
-// Add 250 x 250 Custom Thumbnail Size
+/**
+ * Create Custom Thumbnail Size
+ */
+ 
 add_image_size( 'custom-thumbnail', 250, 250, true );
 ```
 
@@ -242,11 +320,20 @@ add_image_size( 'custom-thumbnail', 250, 250, true );
 
  echo $thumb[0]; ?>
  ```
+ 
+ Since WordPress 4.4.0 you can use:
+ 
+ ```php
+ the_post_thumbnail_url( $size );
+ ```
 
 ## Add Categories for Attachments
 
 ```php
-// Add Categories for Attachments
+/**
+ * Add Categories for Attachments
+ */
+ 
 function add_categories_for_attachments() {
 	register_taxonomy_for_object_type( 'category', 'attachment' );
 }
@@ -256,7 +343,10 @@ add_action( 'init' , 'add_categories_for_attachments' );
 ## Add Tags for Attachments
 
 ```php
-// Add Tags for Attachments
+/**
+ * Add Tags for Attachments
+ */
+ 
 function add_tags_for_attachments() {
 	register_taxonomy_for_object_type( 'post_tag', 'attachment' );
 }
@@ -266,7 +356,10 @@ add_action( 'init' , 'add_tags_for_attachments' );
 ## Add Custom Excerpt to Pages
 
 ```php
-// Add Custom Excerpt to Pages
+/**
+ * Add Custom Excerpt to Pages
+ */
+ 
 function add_page_excerpt() {
 	add_post_type_support( 'page', array( 'excerpt' ) );
 }
@@ -276,7 +369,10 @@ add_action( 'init', 'add_page_excerpt' );
 ## Create a Global String
 
 ```php
-// Create a Global String
+/**
+ * Create a Global String
+ */
+ 
 function global_string() {
 	return 'String';
 }
@@ -291,21 +387,30 @@ function global_string() {
 ## Support Featured Images
 
 ```php
-// Support Featured Images
+/**
+ * Support Featured Images
+ */
+ 
 add_theme_support( 'post-thumbnails' );
 ```
 
 ## Support Search Form
 
 ```php
-// Support Search Form
+/**
+ * Support Search Form
+ */
+ 
 add_theme_support( 'html5', array( 'search-form' ) );
 ```
 
 ## Excluding pages from search
 
 ```php
-// Excluding pages from search
+/**
+ * Excluding pages from search
+ */
+ 
 function exclude_pages_from_search() {
 	global $wp_post_types;
 	$wp_post_types['page']->exclude_from_search = true;
@@ -316,7 +421,10 @@ add_action( 'init', 'exclude_pages_from_search' );
 ## Disable xmlrpc.php
 
 ```php
-// Disable XML RPC
+/**
+ * Disable xmlrpc.php
+ */
+ 
 add_filter( 'xmlrpc_enabled', '__return_false' );
 remove_action( 'wp_head', 'rsd_link' );
 remove_action( 'wp_head', 'wlwmanifest_link' );
@@ -325,7 +433,10 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 ## Escape HTML in Posts
 
 ```php
-// Escape HTML in <code> or <pre><code> tags.
+/**
+ * Escape HTML in <code> or <pre><code> tags.
+ */
+ 
 function escapeHTML($arr) {
 	if (version_compare(PHP_VERSION, '5.2.3') >= 0) {
 		$output = htmlspecialchars($arr[2], ENT_NOQUOTES, get_bloginfo('charset'), false);
@@ -364,7 +475,10 @@ Modified from [Escape HTML](https://wordpress.org/plugins/escape-html/).
 ## Create Custom Global Settings
 
 ```php
-// Create Custom Global Settings
+/**
+ * Create Custom Global Settings
+ */
+ 
 function custom_settings_page() { ?>
 	<div class="wrap">
 	<h1>Custom Settings</h1>
@@ -407,6 +521,10 @@ Modified from [Create a WordPress Theme Settings Page with the Settings API](htt
 ## Remove WordPress Admin Bar
 
 ```php
+/**
+ * Remove WordPress Admin Bar
+ */
+
 function remove_admin_bar() {
 	remove_action( 'wp_head', '_admin_bar_bump_cb' );
 }
@@ -416,24 +534,27 @@ add_action( 'get_header', 'remove_admin_bar' );
 ## Add Open Graph Meta Tags
 
 ```php
-// Add Open Graph Meta Tags
+/**
+ * Add Open Graph Meta Tags
+ */
+
 function meta_og() {
 	global $post;
 	if ( is_single() ) {
-		if(has_post_thumbnail($post->ID)) {
-			$img_src = wp_get_attachment_image_src(get_post_thumbnail_id( $post->ID ), 'thumbnail');
+		if( has_post_thumbnail( $post->ID ) ) {
+			$img_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'thumbnail' );
 		} 
 		$excerpt = strip_tags($post->post_content);
 		$excerpt_more = '';
-		if (strlen($excerpt) > 155) {
+		if ( strlen($excerpt ) > 155) {
 			$excerpt = substr($excerpt,0,155);
 			$excerpt_more = ' ...';
 		}
-		$excerpt = str_replace('"', '', $excerpt);
-		$excerpt = str_replace("'", '', $excerpt);
-		$excerptwords = preg_split('/[\n\r\t ]+/', $excerpt, -1, PREG_SPLIT_NO_EMPTY);
-		array_pop($excerptwords);
-		$excerpt = implode(' ', $excerptwords) . $excerpt_more;
+		$excerpt = str_replace( '"', '', $excerpt );
+		$excerpt = str_replace( "'", '', $excerpt );
+		$excerptwords = preg_split( '/[\n\r\t ]+/', $excerpt, -1, PREG_SPLIT_NO_EMPTY );
+		array_pop( $excerptwords );
+		$excerpt = implode( ' ', $excerptwords ) . $excerpt_more;
 		?>
 <meta name="author" content="Your Name">
 <meta name="description" content="<?php echo $excerpt; ?>">
@@ -454,12 +575,15 @@ add_action('wp_head', 'meta_og', 5);
 ## Add Custom Post Type
 
 ```php
-// Create Custom Post Type
+/**
+ * Add Custom Post Type
+ */
+
 function create_custom_post() {
-	register_post_type('custom-post', // slug for custom post type
+	register_post_type( 'custom-post', // slug for custom post type
 		array(
 		'labels' => array(
-			'name' => __('Custom Post'),
+			'name' => __( 'Custom Post' ),
 		),
 		'public' => true,
 		'hierarchical' => true, 
@@ -483,6 +607,10 @@ add_action('init', 'create_custom_post');
 ## Implement Preconnect to Google Fonts in Themes
 
 ```php
+/**
+ * Implement Preconnect to Google Fonts in Themes
+ */
+
 function twentyfifteen_resource_hints( $urls, $relation_type ) {
 	// Checks whether the subject is carrying the source of fonts google and the `$relation_type` equals preconnect.
 	// Replace `enqueue_font_id` the `ID` used in loading the source.
@@ -509,6 +637,10 @@ add_filter( 'wp_resource_hints', 'twentyfifteen_resource_hints', 10, 2 );
 ## Add Thumbnail Column to Post Listing
 
 ```php
+/**
+ * Add Thumbnail Column to Post Listing
+ */
+
 add_image_size( 'admin-list-thumb', 80, 80, false );
 
 function wpcs_add_thumbnail_columns( $columns ) {
@@ -543,11 +675,91 @@ if ( function_exists( 'add_theme_support' ) ) {
 ## Add Lead Class to First Paragraph
 
 ```php
-// Add Lead Class to First Paragraph
+/**
+ * Add Lead Class to First Paragraph
+ */
+
 function first_paragraph( $content ) {
-	return preg_replace('/<p([^>]+)?>/', '<p$1 class="lead">', $content, 1);
+	return preg_replace( '/<p([^>]+)?>/', '<p$1 class="lead">', $content, 1 );
 }
 add_filter( 'the_content', 'first_paragraph' );
 ```
 
 Adds a `lead` class to the first paragraph in [the_content](https://developer.wordpress.org/reference/functions/the_content/).
+
+## Exclude Custom Post Type from Search
+
+```php
+/**
+ * Exclude Custom Post Type from Search
+ */
+
+function excludePages( $query ) {
+if ( $query->is_search ) {
+	$query->set( 'post_type', 'post' );
+}
+	return $query;
+}
+add_filter( 'pre_get_posts','excludePages' );
+```
+
+## Remove Query String from Static Resources
+
+```php
+/**
+ * Remove Query String from Static Resources 
+ */
+ 
+function remove_cssjs_ver( $src ) {
+ if( strpos( $src, '?ver=' ) )
+ $src = remove_query_arg( 'ver', $src );
+ return $src;
+}
+add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
+add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
+```
+
+## Modify jQuery
+
+```php
+/**
+ * modify jquery
+ */
+function modify_jquery() {
+    if ( !is_admin() && !is_login_page() ) {
+        // comment out the next two lines to load the local copy of jQuery
+        wp_deregister_script('jquery');
+        // wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js', false, '2.2.4');
+        wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, '3.2.1');
+        wp_enqueue_script('jquery');
+    }
+}
+add_action( 'init', 'modify_jquery' );
+```
+
+##  Disable Website Field From Comment Form
+
+```php
+/** 
+ * Disable Website Field From Comment Form
+ */
+
+function disable_website_field( $field ) { 
+	if( isset($field['url']) ) {
+		unset( $field['url'] );
+	}
+	return $field;
+}
+
+add_filter('comment_form_default_fields', 'disable_website_field');
+```
+##  Disable JSON Rest API
+
+```php
+/** 
+ * Disable JSON Rest API  
+ */
+
+add_filter('json_enabled', '__return_false');
+add_filter('json_jsonp_enabled', '__return_false');
+```
