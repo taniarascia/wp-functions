@@ -128,6 +128,21 @@ Insert this where you want it to appear, and save the menu in **Appearance -> Me
 <?php wp_nav_menu( array( 'theme_location' => 'nav-menu' ) ); ?>
 ```
 
+Here's the code for multiple menus/
+
+```php
+function register_my_menus() {
+	register_nav_menus(
+		array(
+			'new-menu' => __( 'New Menu' ),
+			'another-menu' => __( 'Another Menu' ),
+			'an-extra-menu' => __( 'An Extra Menu' )
+		)
+	);
+}
+add_action( 'init', 'register_my_menus' );
+```
+
 ## Insert Custom Login Logo
 
 ```php
