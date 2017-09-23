@@ -40,6 +40,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Modify jQuery](#modify-jquery)
 * [Disable JSON Rest API](#disable-json-rest-api)
 * [Switch post type](#switch-post-type)
+* [PHP logger](#php-logger)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -787,4 +788,18 @@ function switch_post_type(){
 
 // hooking the function into the admin_init action
 add_action('admin_init','switch_post_type');
+```
+## PHP Logger
+/**
+ * PHP Logger
+ */
+```php
+function php_logger( $data ) {
+	$output = $data;
+	if ( is_array( $output ) )
+		$output = implode( ',', $output);
+		
+	// print the result into the JavaScript console
+	echo "<script>console.log( 'PHPLOG: " . $output . "' );</script>";
+}
 ```
