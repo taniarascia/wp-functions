@@ -39,6 +39,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Disable Website Field From Comment Form](#disable-website-field-from-comment-form)
 * [Modify jQuery](#modify-jquery)
 * [Disable JSON Rest API](#disable-json-rest-api)
+* [Switch post type](#switch-post-type)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -762,4 +763,23 @@ add_filter('comment_form_default_fields', 'disable_website_field');
 
 add_filter('json_enabled', '__return_false');
 add_filter('json_jsonp_enabled', '__return_false');
+```
+## Switch post type
+
+```php
+/**
+ * Switch post type
+ */
+function switch_post_type ( $old_post_type, $new_post_type ){
+	global $wpdb;
+
+	// Run the update query
+	$wpdb->update(
+		$wpdb->posts,
+		// Set
+		array( 'post_type' => $new_post_type),
+		// Where
+		array( 'post_type' => $old_post_type )
+	);
+}
 ```
