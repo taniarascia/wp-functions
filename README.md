@@ -302,7 +302,21 @@ add_action( 'wp_before_admin_bar_render', 'mytheme_admin_bar_render' );
  * Change Media Gallery URL
  */
  
-update_option( 'upload_url_path', 'http://assets.website.com/wp-content/uploads' );
+if ( empty( get_option( 'upload_url_path' ) ) ) {
+	update_option( 'upload_url_path', 'http://assets.website.com/wp-content/uploads' );
+}
+```
+
+Also, you can filter the option value before it's retrieved from the database, which is slightly better:
+
+```php
+/**
+ * Change Media Gallery URL
+ */
+ 
+add_filter( 'pre_option_upload_url_path', function() {
+    return 'http://assets.website.com/wp-content/uploads';
+});
 ```
 
 ## Create Custom Thumbnail Size
