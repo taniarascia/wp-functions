@@ -41,6 +41,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Disable JSON Rest API](#disable-json-rest-api)
 * [Switch post type](#switch-post-type)
 * [PHP logger](#php-logger)
+* [Always show second bar in TinyMCE](#always-show-second-bar-in-tinymce)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -805,7 +806,6 @@ function switch_post_type ( $old_post_type, $new_post_type ){
 /**
  * PHP Logger
  */
-```php
 function php_logger( $data ) {
 	$output = $data;
 	if ( is_array( $output ) )
@@ -814,4 +814,17 @@ function php_logger( $data ) {
 	// print the result into the JavaScript console
 	echo "<script>console.log( 'PHP LOG: " . $output . "' );</script>";
 }
+```
+
+## Always show second bar in TinyMCE
+
+```php
+/**
+ * Always show second bar in TinyMCE
+ */
+function show_tinymce_toolbar( $in ) {
+	$in['wordpress_adv_hidden'] = false;
+	return $in;
+}
+add_filter( 'tiny_mce_before_init', 'show_tinymce_toolbar' );
 ```
