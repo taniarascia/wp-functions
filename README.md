@@ -44,6 +44,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Always show second bar in TinyMCE](#always-show-second-bar-in-tinymce)
 * [Remove Amin Menu Items Depending on User Role](#remove-admin-menu-items-depending-on-user-role)
 * [Remove Admin Menu Items Depending on Email Address (domain)](#remove-admin-menu-items-depending-on-email-address-domain)
+* [Reorder Admin Menu Items](#reorder-admin-menu-items)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -910,4 +911,33 @@ function remove_dashboard_menus() {
 	}
 }
 add_action( 'admin_menu', 'remove_dashboard_menus' );
+```
+
+## Reorder Admin Menu Items
+
+```php
+/**
+ * Reorder admin menu
+ */
+function custom_menu_order( $menu_ord ) {
+	if ( ! $menu_ord ) { return true; }
+		return array(
+			'index.php',
+			'separator1',
+			'edit.php?post_type=page', 
+			'edit.php', 
+			'edit.php?post_type=[your_post_type_slug]',
+			'upload.php',
+			'edit-comments.php',
+			'separator2',
+			'themes.php',
+			'plugins.php',
+			'users.php',
+			'tools.php',
+			'options-general.php'
+		);
+	}
+}
+add_filter( 'custom_menu_order', 'custom_menu_order' );
+add_filter( 'menu_order', 'custom_menu_order' );
 ```
