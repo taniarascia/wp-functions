@@ -841,7 +841,8 @@ add_filter( 'tiny_mce_before_init', 'show_tinymce_toolbar' );
 function clone_admin_role() {
 	global $wp_roles;
 	if ( ! isset( $wp_roles ) )
-	$wp_roles = new WP_Roles();
+		$wp_roles = new WP_Roles();
+	
 	$adm = $wp_roles->get_role( 'administrator' );
 	
 	// Add new "Client" role with all admin capabilities
