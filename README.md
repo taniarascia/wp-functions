@@ -42,7 +42,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Switch post type](#switch-post-type)
 * [PHP logger](#php-logger)
 * [Always show second bar in TinyMCE](#always-show-second-bar-in-tinymce)
-* [Remove Amin Menu Items Depending on User Role](#remove-admin-menu-items-depending-on-user-role)
+* [Remove Admin Menu Items Depending on User Role](#remove-admin-menu-items-depending-on-user-role)
 * [Remove Admin Menu Items Depending on Email Address (domain)](#remove-admin-menu-items-depending-on-email-address-domain)
 * [Reorder Admin Menu Items](#reorder-admin-menu-items)
 
