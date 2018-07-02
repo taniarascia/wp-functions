@@ -747,7 +747,7 @@ add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
  */
 function modify_jquery() {
     wp_deregister_script('jquery');
-    wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, '3.2.1');
+    wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, '3.2.1');
     wp_enqueue_script('jquery');
 }
 if (!is_admin()) add_action('wp_enqueue_scripts', 'modify_jquery');
