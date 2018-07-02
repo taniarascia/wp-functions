@@ -746,15 +746,11 @@ add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
  * modify jquery
  */
 function modify_jquery() {
-    if ( !is_admin() && !is_login_page() ) {
-        // comment out the next two lines to load the local copy of jQuery
-        wp_deregister_script('jquery');
-        // wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js', false, '2.2.4');
-        wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, '3.2.1');
-        wp_enqueue_script('jquery');
-    }
+    wp_deregister_script('jquery');
+    wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js', false, '3.2.1');
+    wp_enqueue_script('jquery');
 }
-add_action( 'init', 'modify_jquery' );
+if (!is_admin()) add_action('wp_enqueue_scripts', 'modify_jquery');
 ```
 
 ##  Disable Website Field From Comment Form
