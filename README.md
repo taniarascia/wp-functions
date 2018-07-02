@@ -959,7 +959,7 @@ add_action( 'pre_get_posts', function ($query ) { // anonymous callback
 
 	// add category ID to existing, avoid overwritting it 
 	$cat[] = $query->get( 'cat' );
-	$cat[] = "-" . $webtv_category_parent;
+	$cat[] = "-" . $excluded_cat_id;
 
 	$query->set('cat', $cat);
 	}
