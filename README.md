@@ -45,6 +45,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Remove Admin Menu Items Depending on User Role](#remove-admin-menu-items-depending-on-user-role)
 * [Remove Admin Menu Items Depending on Email Address (domain)](#remove-admin-menu-items-depending-on-email-address-domain)
 * [Reorder Admin Menu Items](#reorder-admin-menu-items)
+* [Exclude a category from WordPress loops](#exclude-a-category-from-wordpress-loops)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -937,4 +938,26 @@ function custom_menu_order( $menu_ord ) {
 }
 add_filter( 'custom_menu_order', 'custom_menu_order' );
 add_filter( 'menu_order', 'custom_menu_order' );
+```
+
+## Exclude a category from WordPress loops
+
+```php
+/**
+ * Exclude a category from all WordPress loops
+ */ 
+add_action( 'pre_get_posts', function ($query ) { // anonymous callback
+	
+	global $wp_query; 
+
+	// Hard coded category ID, but can be dynamic: esc_attr(get_option('your-cat-id')); 
+	$excluded_cat_id = 25;
+
+	// add category ID to existing, avoid overwritting it 
+	$cat[] = $query->get( 'cat' );
+	$cat[] = "-" . $excluded_cat_id;
+
+	$query->set('cat', $cat);
+	}
+});
 ```
