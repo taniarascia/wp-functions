@@ -39,6 +39,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 * [Disable Website Field From Comment Form](#disable-website-field-from-comment-form)
 * [Modify jQuery](#modify-jquery)
 * [Disable JSON Rest API](#disable-json-rest-api)
+* [Redirect User After Login In Wordpress](#redirect-user-after-login-in-wordpress)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -747,4 +748,40 @@ add_filter('comment_form_default_fields', 'disable_website_field');
 
 add_filter('json_enabled', '__return_false');
 add_filter('json_jsonp_enabled', '__return_false');
+```
+
+##  Redirect User After Login In Wordpress
+
+```php
+/**
+ * Redirect User After Login In Wordpress 
+ */
+function redirect_user_on_role()
+{
+ //retrieve current user info 
+ global $current_user;
+     get_currentuserinfo();
+ //If login user role is Subscriber
+     if ($current_user->user_level == 0)
+     {
+         wp_redirect( home_url() ); exit;
+     }
+ //If login user role is Contributor
+ else if ($current_user->user_level > 1)
+ {
+         wp_redirect( home_url() ); exit;
+     }
+   //If login user role is Editor
+     else if ($current_user->user_level >8)
+     {
+ wp_redirect( home_url() ); exit;
+     }
+ // For other rolse 
+ else
+     {
+       $redirect_to = 'http://google.com/';
+         return $redirect_to;
+ }
+}
+add_action('admin_init','redirect_user_on_role');
 ```
