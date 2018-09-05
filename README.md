@@ -46,6 +46,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 - [Remove Admin Menu Items Depending on Email Address (Domain)](#remove-admin-menu-items-depending-on-email-address-domain)
 - [Reorder Admin Menu Items](#reorder-admin-menu-items)
 - [Exclude a Category From WordPress Loops](#exclude-a-category-from-wordpress-loops)
+- [Redirect User After Login In Wordpress](#redirect-user-after-login-in-wordpress)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -984,4 +985,41 @@ add_action( 'pre_get_posts', function( $query ) { // anonymous callback
     $query->set( 'cat', $cat );
     }
 });
+```
+
+## Redirect User After Login In Wordpress
+
+```php
+/**
+ * Redirect User After Login In Wordpress
+ */
+
+function redirect_user_on_role()
+{
+ //retrieve current user info 
+ global $current_user;
+     get_currentuserinfo();
+ //If login user role is Subscriber
+     if ($current_user->user_level == 0)
+     {
+         wp_redirect( home_url() ); exit;
+     }
+ //If login user role is Contributor
+ else if ($current_user->user_level > 1)
+ {
+         wp_redirect( home_url() ); exit;
+     }
+   //If login user role is Editor
+     else if ($current_user->user_level >8)
+     {
+ wp_redirect( home_url() ); exit;
+     }
+ // For other rolse 
+ else
+     {
+       $redirect_to = 'http://google.com/';
+         return $redirect_to;
+ }
+}
+add_action('admin_init','redirect_user_on_role');
 ```
