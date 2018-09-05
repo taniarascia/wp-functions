@@ -751,7 +751,6 @@ add_filter('json_jsonp_enabled', '__return_false');
 ```
 
 ##  Redirect User After Login In Wordpress
-
 ```php
 /**
  * Redirect User After Login In Wordpress 
