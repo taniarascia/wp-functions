@@ -484,7 +484,7 @@ function escapeHTML($arr) {
 
         // decode already converted data
         $data = htmlspecialchars_decode( $arr[2] );
-        // escapse all data inside <pre>
+        // escape all data inside <pre>
         $output = strtr( $data, $specialChars );
     }
     if (! empty($output)) {
@@ -611,7 +611,7 @@ add_action('wp_head', 'meta_og', 5);
 
 ```php
 /**
- * Add custompost type
+ * Add custom post type
  */
 
 function create_custom_post() {
@@ -977,7 +977,7 @@ add_action( 'pre_get_posts', function( $query ) { // anonymous callback
     // Hard coded category ID, but can be dynamic: esc_attr(get_option('your-cat-id')); 
     $excluded_cat_id = 25;
 
-    // add category ID to existing, avoid overwritting it 
+    // add category ID to existing, avoid overwriting it 
     $cat[] = $query->get( 'cat' );
     $cat[] = "-" . $excluded_cat_id;
 
