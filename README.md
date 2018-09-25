@@ -651,7 +651,7 @@ function twentyfifteen_resource_hints( $urls, $relation_type ) {
     // Replace `enqueue_font_id` the `ID` used in loading the source.
     if ( wp_style_is( 'enqueue_font_id', 'queue' ) && 'preconnect' === $relation_type ) {
         // Checks whether the version of WordPress is greater than or equal to 4.7
-        // to ensure conmpatibilidade with older versions
+        // to ensure compatibility with older versions
         // because the 4.7 has become necessary to return an array instead of string
         if ( version_compare( $GLOBALS['wp_version'], '4.7-alpha', '>=' ) ) {
             // Array with url google fonts and crossorigin
