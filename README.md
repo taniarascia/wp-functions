@@ -484,7 +484,7 @@ function escapeHTML($arr) {
 
         // decode already converted data
         $data = htmlspecialchars_decode( $arr[2] );
-        // escapse all data inside <pre>
+        // escape all data inside <pre>
         $output = strtr( $data, $specialChars );
     }
     if (! empty($output)) {
@@ -611,7 +611,7 @@ add_action('wp_head', 'meta_og', 5);
 
 ```php
 /**
- * Add custompost type
+ * Add custom post type
  */
 
 function create_custom_post() {
@@ -651,7 +651,7 @@ function twentyfifteen_resource_hints( $urls, $relation_type ) {
     // Replace `enqueue_font_id` the `ID` used in loading the source.
     if ( wp_style_is( 'enqueue_font_id', 'queue' ) && 'preconnect' === $relation_type ) {
         // Checks whether the version of WordPress is greater than or equal to 4.7
-        // to ensure conmpatibilidade with older versions
+        // to ensure compatibility with older versions
         // because the 4.7 has become necessary to return an array instead of string
         if ( version_compare( $GLOBALS['wp_version'], '4.7-alpha', '>=' ) ) {
             // Array with url google fonts and crossorigin
@@ -977,7 +977,7 @@ add_action( 'pre_get_posts', function( $query ) { // anonymous callback
     // Hard coded category ID, but can be dynamic: esc_attr(get_option('your-cat-id')); 
     $excluded_cat_id = 25;
 
-    // add category ID to existing, avoid overwritting it 
+    // add category ID to existing, avoid overwriting it 
     $cat[] = $query->get( 'cat' );
     $cat[] = "-" . $excluded_cat_id;
 
