@@ -46,6 +46,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 - [Remove Admin Menu Items Depending on Email Address (Domain)](#remove-admin-menu-items-depending-on-email-address-domain)
 - [Reorder Admin Menu Items](#reorder-admin-menu-items)
 - [Exclude a Category From WordPress Loops](#exclude-a-category-from-wordpress-loops)
+- [Disable the message "JQMIGRATE: Migrate is installed, version 1.4.1"](#user-content-disable-the-message---jqmigrate-migrate-is-installed-version-141)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -982,6 +983,16 @@ add_action( 'pre_get_posts', function( $query ) { // anonymous callback
     $cat[] = "-" . $excluded_cat_id;
 
     $query->set( 'cat', $cat );
+    }
+});
+```
+
+## Disable the message - JQMIGRATE: Migrate is installed, version 1.4.1
+
+```php
+add_action('wp_default_scripts', function ($scripts) {
+    if (!empty($scripts->registered['jquery'])) {
+        $scripts->registered['jquery']->deps = array_diff($scripts->registered['jquery']->deps, ['jquery-migrate']);
     }
 });
 ```
