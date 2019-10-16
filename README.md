@@ -47,6 +47,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 - [Reorder Admin Menu Items](#reorder-admin-menu-items)
 - [Exclude a Category From WordPress Loops](#exclude-a-category-from-wordpress-loops)
 - [Disable the message "JQMIGRATE: Migrate is installed, version 1.4.1"](#user-content-disable-the-message---jqmigrate-migrate-is-installed-version-141)
+- [Load heavy 3rd-party scripts later for better performance](#load-heavy-3rd-party-scripts-later-for-better-performance)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -995,4 +996,33 @@ add_action('wp_default_scripts', function ($scripts) {
         $scripts->registered['jquery']->deps = array_diff($scripts->registered['jquery']->deps, ['jquery-migrate']);
     }
 });
+```
+
+## Load heavy 3rd-party scripts later for better performance
+
+Lighthouse and similar performance analysis tools always complain about render-blocking scripts (and styles),
+short cache TTL etc. Most of these scripts and styles come from 3rd-party sources which we can't control –
+Google's own Tag Manager and Analytics, Facebook Pixel, other trackers and chat scripts etc. However, we
+can load them only when a real user interacts with a page, significantly reducing the Time To Interactive
+metric and scoring much higher performance results.
+
+Depending on where you like these 3rd-party scripts to be, you can either use `wp_footer` action to print the
+code in footer, or put it in your main `app.js` script which, in turn, is enqueued on `wp_enqueue_scripts` action.
+
+```javascript
+<script>
+var fired = false;
+
+window.addEventListener('scroll', () => {
+    if (fired === false) {
+        fired = true;
+        
+        setTimeout(() => {
+
+            // Marketing scripts go here.
+
+        }, 1000) // 1000ms or 1s works fine, but you can adjust this timeout.
+    }
+});
+</script>
 ```
