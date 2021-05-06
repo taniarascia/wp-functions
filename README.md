@@ -48,6 +48,7 @@ This is a list of useful WordPress functions that I often reference to enhance o
 - [Exclude a Category From WordPress Loops](#exclude-a-category-from-wordpress-loops)
 - [Disable the message "JQMIGRATE: Migrate is installed, version 1.4.1"](#user-content-disable-the-message---jqmigrate-migrate-is-installed-version-141)
 - [Load heavy 3rd-party scripts later for better performance](#load-heavy-3rd-party-scripts-later-for-better-performance)
+- [Set custom favicon on admin pages](#set-custom-favicon-on-admin-pages)
 
 ## Hide WordPress Update Nag to All But Admins
 
@@ -1025,4 +1026,14 @@ window.addEventListener('scroll', () => {
     }
 });
 </script>
+```
+
+## Set custom favicon on admin pages
+
+Useful for distinguishing between front-end tabs and admin tabs at a glance.
+
+```php
+add_action('admin_head', function () { ?>
+  <link rel="icon" type="image/png" href="/path/to/other/favicon.png">
+<?php });
 ```
